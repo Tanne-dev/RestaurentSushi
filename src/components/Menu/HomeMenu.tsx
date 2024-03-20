@@ -1,11 +1,6 @@
 "use client";
 import MenuItem from "./MenuItem";
-import { useState } from "react";
 export default function HomeMenu() {
-    const [displayMenu, setDisplayMenu] = useState("");
-    const HandleActiveDisplay = (menu) => {
-        setDisplayMenu(menu);
-    };
     return (
         <section className="mt-[5rem]">
             <div className="flex flex-col items-center ">
