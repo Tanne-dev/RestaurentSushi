@@ -1,5 +1,5 @@
 export default function Cart({
-    classname = "mr-5 w-[80px] h-[40px]text-[#fff] text-[#fff] object-cover",
+    classname = "mr-5 w-[30px] h-[30px]text-[#fff] text-[#fff] object-cover",
 }) {
     return (
         <>

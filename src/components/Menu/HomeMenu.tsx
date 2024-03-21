@@ -12,7 +12,6 @@ export default function HomeMenu() {
                     authentic experience. Check now!
                 </p>
             </div>
-
             <div className="mt-[4rem]">
                 <MenuItem />
             </div>

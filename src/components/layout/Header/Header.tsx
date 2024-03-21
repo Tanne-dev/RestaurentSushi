@@ -46,16 +46,26 @@ export default function Header() {
                     />
                 </div>
                 <div className=" items-center flex justify-between">
-                    <Cart />
-                    <button className="text-[1rem] font-semibold mr-4 text-white ">
-                        Login / Register
-                    </button>
+                    <Link
+                        href={"/register"}
+                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                    >
+                        Booking table
+                    </Link>
 
-                    <button className="">
-                        <span className="text-[1rem] font-semibold text-white whitespace-nowrap">
-                            Table Reservation
-                        </span>
-                    </button>
+                    <Link
+                        href={"/login"}
+                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                    >
+                        Login
+                    </Link>
+                    <Link
+                        href={"/register"}
+                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                    >
+                        Register
+                    </Link>
+                    <Cart />
                 </div>
             </header>
             <HamburgerMenu />
