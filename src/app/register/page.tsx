@@ -2,7 +2,7 @@
 import { SyntheticEvent, useState } from "react";
 import Image from "next/image";
 
-export default function registerPage() {
+export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const handleFormSubmit = (e: SyntheticEvent) => {
