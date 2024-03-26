@@ -8,7 +8,7 @@ button {
 }
 button[type="submit"],
 button.submit {
-    @apply border-0 text-white;
+    @apply text-white;
 }
 input[type="email"],
 input[type="password"],

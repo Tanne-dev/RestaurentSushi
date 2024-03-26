@@ -18,7 +18,7 @@ export default function Hero() {
                     <span className="text-[1rem] text-white ">
                         Welcome to Our Restaurant
                     </span>
-                    <h1 className=" text-4xl lg:text-7xl text-white mt-3 ">
+                    <h1 className="text-4xl lg:text-7xl text-white mt-3">
                         The Best Sushi For <br /> The Best Moments
                     </h1>
                     <p className="text-[1rem] mt-3 lg:mt-0 text-orange-200 ">
