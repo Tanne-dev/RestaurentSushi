@@ -1,15 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 button {
-    @apply block w-full text-gray-700 h-9 px-2;
+    @apply block w-full text-white h-9 px-6;
     @apply hover:bg-orange-400 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all;
 }
+button[type="submit"],
+button.submit {
+    @apply text-white;
+}
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    @apply block w-full my-4 rounded-xl;
+    @apply border p-2 border-white;
+}
+::placeholder {
+    @apply px-4;
+}
 h3 {
-    font-size: 2.5rem;
-    font-weight: medium;
+    @apply text-4xl font-medium;
+}
+h1 {
+    @apply text-5xl;
 }
 h2 {
-    font-size: 4rem;
-    font-weight: medium;
+    @apply text-6xl font-medium;
 }

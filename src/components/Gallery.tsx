@@ -19,7 +19,7 @@ const Gallery = () => {
                             src={"/Sashimi.webp"}
                             width={"570"}
                             height={"570"}
-                            objecfit={"contain"}
+                            objectFit={"contain"}
                             alt={"Sushi"}
                         ></Image>
                     </div>
@@ -28,28 +28,28 @@ const Gallery = () => {
                             width={"270"}
                             height={"270"}
                             src={"/Nigiri.webp"}
-                            objecfit={"contain"}
+                            objectFit={"contain"}
                             alt="Image description"
                         />
                         <Image
                             width={"270"}
                             height={"270"}
                             src={"/Adamame.webp"}
-                            objecfit={"contain"}
+                            objectFit={"contain"}
                             alt="Image description"
                         />
                         <Image
                             width={"270"}
                             height={"270"}
                             src={"/BiffShasimi.webp"}
-                            objecfit={"contain"}
+                            objectFit={"contain"}
                             alt="Image description"
                         />
                         <Image
                             width={"270"}
                             height={"270"}
                             src={"/FireShirmp.png"}
-                            objecfit={"contain"}
+                            objectFit={"contain"}
                             alt="Image description"
                         />
                     </div>
