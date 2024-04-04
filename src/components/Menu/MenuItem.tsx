@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -167,18 +168,17 @@ export default function MenuItem() {
                                 <div className="max-h-[360px] overflow-hidden object-cover">
                                     <Link href={"/"}>
                                         <Image
-                                            className="object-cover"
+                                            objectFit="cover"
                                             src={list.link}
                                             alt="Menu Item"
                                             width={"380"}
                                             height={"360"}
-                                            objectFit="contain"
                                         />
                                     </Link>
                                 </div>
                                 <div className="flex flex-col p-4 space-y-2 border-b">
                                     <div className="absolute top-0 right-0 w-16 h-16">
-                                        <div className="absolute bg-orange-400 right-[-36px] top-[40px] w-[185px] rotate-45 shadow-xl text-center text-md font-semibold py-1 bg-besmart-label-background text-besmart-label-text">
+                                        <div className="absolute bg-orange-400 right-[-36px] top-[40px] w-[185px] rotate-45 shadow-xl text-center text-md font-semibold py-1">
                                             {list.price} SEK
                                         </div>
                                     </div>
@@ -214,13 +214,13 @@ export default function MenuItem() {
                                 <div className="flex gap-4 p-4">
                                     <Link
                                         href={"/"}
-                                        className="flex-1 flex items-center justify-center border border-transparent rounded-md py-2 text-sm font-medium text-besmart-button-text bg-besmart-button-background"
+                                        className="flex-1 flex items-center justify-center border border-transparent rounded-md py-2 text-sm font-medium"
                                     >
                                         Edit
                                     </Link>
                                     <button
                                         type="button"
-                                        className="flex-1 flex items-center justify-center border border-transparent rounded-md py-2 text-sm font-medium text-besmart-button-text bg-besmart-button-background"
+                                        className="flex-1 flex items-center justify-center border border-transparent rounded-md py-2 text-sm font-medium"
                                     >
                                         Add
                                     </button>

@@ -18,9 +18,7 @@
             }
         ],
         "paths": {
-            "@/app/*": ["./src/app/*"],
-            "@/models/*": ["./src/models/*"],
-            "@/components/*": ["./src/components/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": [
@@ -30,7 +28,9 @@
         ".next/types/**/*.ts",
         ".next/types/app/layout.tsx",
         ".next/types/app/page.tsx",
-        "src/app/api/register/route.js"
+        "src/app/api/register/route.tsx",
+        "src/app/models/User.js",
+        "src/app/api/auth/[...nextauth]/route.js"
     ],
     "exclude": ["node_modules"]
 }
