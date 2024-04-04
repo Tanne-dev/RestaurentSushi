@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
+import { AppProvider } from "@/components/AppContext";
 import Header from "@/components/layout/Header/Header";
 import Footer from "@/components/layout/Footer/footer";
 
@@ -27,9 +28,11 @@ export default function RootLayout({
                 style={{ backgroundColor: "black" }}
             >
                 <main className="max-w-[1170px] mx-auto ">
-                    <Header></Header>
-                    {children}
-                    <Footer></Footer>
+                    <AppProvider>
+                        <Header></Header>
+                        {children}
+                        <Footer></Footer>
+                    </AppProvider>
                 </main>
             </body>
         </html>

@@ -43,10 +43,7 @@ export default function LoginPage() {
                     {" "}
                     or login with provider
                 </div>
-                <button
-                    disabled={loginProgess}
-                    className="flex gap-4 justify-center"
-                >
+                <button className="flex gap-4 justify-center">
                     <Image
                         src={"/google.png"}
                         alt={""}

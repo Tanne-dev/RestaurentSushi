@@ -30,7 +30,7 @@
         ".next/types/app/page.tsx",
         "src/app/api/register/route.tsx",
         "src/app/models/User.js",
-        "src/app/api/auth/[...nextauth]/route.js"
+        "src/app/api/auth/[...nextauth]/route.tsx"
     ],
     "exclude": ["node_modules"]
 }
