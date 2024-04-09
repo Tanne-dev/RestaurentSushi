@@ -168,7 +168,7 @@ export default function MenuItem() {
                                 <div className="max-h-[360px] overflow-hidden object-cover">
                                     <Link href={"/"}>
                                         <Image
-                                            objectFit="cover"
+                                            style={{ objectFit: "cover" }}
                                             src={list.link}
                                             alt="Menu Item"
                                             width={"380"}

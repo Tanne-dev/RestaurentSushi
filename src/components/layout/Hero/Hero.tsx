@@ -11,6 +11,7 @@ export default function Hero() {
                         src={"/Sushi hero2.png"}
                         width={"424"}
                         height={"422"}
+                        style={{ objectFit: "cover" }}
                         alt={"Sushi"}
                     ></Image>
                 </div>
@@ -41,6 +42,7 @@ export default function Hero() {
                         src={"/Sushi hero1.png"}
                         width={"424"}
                         height={"422"}
+                        style={{ objectFit: "cover" }}
                         alt={"Sushi"}
                     ></Image>
                 </div>

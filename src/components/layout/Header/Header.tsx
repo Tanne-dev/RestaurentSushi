@@ -39,7 +39,7 @@ export default function Header() {
                 </nav>
                 <div className="w-[183px] ml-[7rem]">
                     <Image
-                        objectFit="cover"
+                        style={{ objectFit: "cover" }}
                         width={"180"}
                         height={"180"}
                         src={"/LogoKiyora.png"}

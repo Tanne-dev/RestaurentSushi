@@ -1,7 +1,6 @@
 "use client";
-import { signIn } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/firebase/config";
 import { useState } from "react";
 
 export default function RegisterPage() {
@@ -10,42 +9,40 @@ export default function RegisterPage() {
     const [creatingUser, setCreatingUser] = useState(false);
     const [userCreated, setUserCreated] = useState(false);
     const [error, setError] = useState(false);
-    async function handleFormSubmit(ev: { preventDefault: () => void }) {
+
+    const handleFormSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
         setCreatingUser(true);
-        setError(false);
         setUserCreated(false);
-        const response = await fetch("/api/register", {
-            method: "POST",
-            body: JSON.stringify({ email, password }),
-            headers: { "Content-Type": "application/json" },
-        });
-        if (response.ok) {
-            setUserCreated(true);
-        } else {
-            setError(true);
+        setError(false);
+        try {
+            const res = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            setEmail(""), setPassword(""), setUserCreated(true);
+        } catch (error) {
+            if (error.code === "auth/email-already-in-use") {
+                setError(true);
+            }
+        } finally {
+            setCreatingUser(false);
         }
-        setCreatingUser(false);
-    }
+    };
+
     return (
         <section className="mt-8">
             <h1 className="text-center text-primary text-4xl mb-4">Register</h1>
             {userCreated && (
-                <div className="my-4 text-white text-center">
-                    User created.
-                    <br />
-                    Now you can{" "}
-                    <Link className="underline" href={"/login"}>
-                        Login &raquo;
-                    </Link>
-                </div>
+                <p className="text-white text-2xl text-center">
+                    Congratulations! You have successfully created an account.
+                </p>
             )}
             {error && (
-                <div className="my-4 text-white text-center">
-                    An error has occurred.
-                    <br />
-                    Please try again later
-                </div>
+                <p className="text-white text-2xl text-center">
+                    Account already exists, please choose another name
+                </p>
             )}
             <form
                 className="block max-w-xs mx-auto"
@@ -55,39 +52,17 @@ export default function RegisterPage() {
                     type="email"
                     placeholder="email"
                     value={email}
-                    disabled={creatingUser}
                     onChange={(ev) => setEmail(ev.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="password"
                     value={password}
-                    disabled={creatingUser}
                     onChange={(ev) => setPassword(ev.target.value)}
                 />
-                <button type="submit" disabled={creatingUser}>
-                    Register
-                </button>
+                <button type="submit">Register</button>
                 <div className="my-4 text-center text-gray-500">
                     or login with provider
-                </div>
-                <button
-                    onClick={() => signIn("google", { callbackUrl: "/" })}
-                    className="flex gap-4 justify-center"
-                >
-                    <Image
-                        src={"/google.png"}
-                        alt={""}
-                        width={24}
-                        height={24}
-                    />
-                    Login with google
-                </button>
-                <div className="text-center my-4 text-gray-500 border-t pt-4">
-                    Existing account?{" "}
-                    <Link className="underline" href={"/login"}>
-                        Login here &raquo;
-                    </Link>
                 </div>
             </form>
         </section>

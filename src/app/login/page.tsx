@@ -3,29 +3,39 @@ import Link from "next/link";
 import Image from "next/image";
 import Cart from "@/components/icon/cart";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/config";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [loginProgess, setLoginProgess] = useState(false);
-    async function HandleOnSubmit(ev: { preventDefault: () => void }) {
+    const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+    const router = useRouter();
+    const HandleSignInSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
-        setLoginProgess(true);
-        await signIn("credentials", { email, password, callbackUrl: "/" });
-
-        setLoginProgess(false);
-    }
+        try {
+            const res = await signInWithEmailAndPassword(email, password);
+            console.log({ res });
+            setEmail("");
+            setPassword("");
+            router.push("/admin");
+        } catch (e) {
+            console.error("error");
+        }
+    };
     return (
         <section className="mt-8">
             <h1 className="text-center text-white">Login</h1>
-            <form className="block max-w-xs mx-auto" onSubmit={HandleOnSubmit}>
+            <form
+                onSubmit={HandleSignInSubmit}
+                className="block max-w-xs mx-auto"
+            >
                 <input
                     type="email"
                     placeholder="email"
                     name="email"
                     value={email}
-                    disabled={loginProgess}
                     onChange={(ev) => setEmail(ev.target.value)}
                 ></input>
                 <input
@@ -33,12 +43,9 @@ export default function LoginPage() {
                     placeholder="password"
                     name="password"
                     value={password}
-                    disabled={loginProgess}
                     onChange={(ev) => setPassword(ev.target.value)}
                 ></input>
-                <button disabled={loginProgess} type="submit">
-                    Login
-                </button>
+                <button type="submit">Login</button>
                 <div className="text-white my-4 text-center">
                     {" "}
                     or login with provider
