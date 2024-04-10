@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
@@ -16,7 +16,7 @@ export default function LoginPage() {
 
         try {
             await signInWithEmailAndPassword(email, password);
-            router.push("/admin");
+            router.push("/");
         } catch (error) {
             console.error(error);
         }
