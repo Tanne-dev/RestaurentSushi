@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
+import { ToastContainer } from "react-toastify";
 
 import Header from "@/components/layout/Header/Header";
 import Footer from "@/components/layout/Footer/footer";

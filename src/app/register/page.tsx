@@ -22,7 +22,7 @@ export default function RegisterPage() {
                 password
             );
             setEmail(""), setPassword(""), setUserCreated(true);
-        } catch (error) {
+        } catch (error: any) {
             if (error.code === "auth/email-already-in-use") {
                 setError(true);
             }
