@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { auth } from "@/app/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { button } from "@material-tailwind/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 
 const AdminPage: React.FC = () => {
