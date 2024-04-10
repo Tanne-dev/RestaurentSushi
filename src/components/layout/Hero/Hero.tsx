@@ -8,9 +8,10 @@ export default function Hero() {
                 <div className=" h-full w-full mt-20 hidden lg:block lg:mt-0 ">
                     <Image
                         className="  absolute top-[165px] left-0"
-                        src={"/Sushi hero2.png"}
+                        src={"/Sushi_hero1.png"}
                         width={"424"}
                         height={"422"}
+                        style={{ objectFit: "cover" }}
                         alt={"Sushi"}
                     ></Image>
                 </div>
@@ -41,6 +42,7 @@ export default function Hero() {
                         src={"/Sushi hero1.png"}
                         width={"424"}
                         height={"422"}
+                        style={{ objectFit: "cover" }}
                         alt={"Sushi"}
                     ></Image>
                 </div>

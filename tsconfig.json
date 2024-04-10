@@ -18,9 +18,7 @@
             }
         ],
         "paths": {
-            "@/app/*": ["./src/app/*"],
-            "@/models/*": ["./src/models/*"],
-            "@/components/*": ["./src/components/*"]
+            "@/*": ["./src/*"]
         }
     },
     "include": [
@@ -30,7 +28,14 @@
         ".next/types/**/*.ts",
         ".next/types/app/layout.tsx",
         ".next/types/app/page.tsx",
-        "src/app/api/register/route.js"
+        "src/app/api/register/route.tsx",
+        "src/app/models/User.js",
+        "src/app/api/auth/[...nextauth]/route.tsx",
+        "src/app/firebase/config.js",
+        "src/app/firebase/config.jsx",
+        "src/app/register/page.jsx",
+        "src/app/login/page.jsx",
+        "src/app/register/page.jsx"
     ],
     "exclude": ["node_modules"]
 }
