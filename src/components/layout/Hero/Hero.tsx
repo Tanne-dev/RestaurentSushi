@@ -39,7 +39,7 @@ export default function Hero() {
                 <div className="hidden lg:block lg:ml-5">
                     <Image
                         className="absolute  top-[120px] right-0 "
-                        src={"/Sushi hero1.png"}
+                        src={"/Sushi_hero1.png"}
                         width={"424"}
                         height={"422"}
                         style={{ objectFit: "cover" }}
