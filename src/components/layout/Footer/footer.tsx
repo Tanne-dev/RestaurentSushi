@@ -11,7 +11,7 @@ const Footer = () => {
                     <div className="flex mt-4">
                         <Link href={"/"}>
                             <Image
-                                src="/"
+                                src={"/"}
                                 alt="App Store"
                                 width={120}
                                 height={40}
@@ -19,7 +19,7 @@ const Footer = () => {
                         </Link>
                         <Link href={"/"}>
                             <Image
-                                src="/"
+                                src={"/"}
                                 alt="Google Play"
                                 width={120}
                                 height={40}

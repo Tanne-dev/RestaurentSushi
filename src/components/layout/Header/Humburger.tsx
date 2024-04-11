@@ -39,7 +39,7 @@ const HamburgerMenu: React.FC = () => {
                 >
                     <li className="border-b border-gray-200">
                         <Link
-                            href="#"
+                            href={"/"}
                             className="block p-4 transition-colors ease-linear duration-[0.3s] hover:bg-gray-100"
                         >
                             Home
@@ -47,7 +47,7 @@ const HamburgerMenu: React.FC = () => {
                     </li>
                     <li className="border-b border-gray-200">
                         <Link
-                            href="#"
+                            href={"/"}
                             className="block p-4 transition-colors ease-linear duration-[0.3s] hover:bg-gray-100"
                         >
                             Menu
@@ -55,7 +55,7 @@ const HamburgerMenu: React.FC = () => {
                     </li>
                     <li className="border-b border-gray-200">
                         <Link
-                            href="#"
+                            href={"/"}
                             className="block p-4 transition-colors ease-linear duration-[0.3s] hover:bg-gray-100"
                         >
                             Blog
@@ -63,7 +63,7 @@ const HamburgerMenu: React.FC = () => {
                     </li>
                     <li className="border-b border-gray-200">
                         <Link
-                            href="#"
+                            href={"/"}
                             className="block p-4 transition-colors ease-linear duration-[0.3s] hover:bg-gray-100"
                         >
                             Pages
@@ -71,7 +71,7 @@ const HamburgerMenu: React.FC = () => {
                     </li>
                     <li>
                         <Link
-                            href="https://erikterwan.com/"
+                            href={"/"}
                             target="_blank"
                             className="block p-4 transition-colors ease-linear duration-[0.3s] hover:bg-gray-100"
                         >
