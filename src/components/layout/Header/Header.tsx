@@ -3,8 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import HamburgerMenu from "@/components/layout/Header/Humburger";
 import Cart from "@/components/icon/cart";
+import { auth } from "@/app/firebase/config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { signOut } from "firebase/auth";
 
 export default function Header() {
+    const [user] = useAuthState(auth);
+
     return (
         <>
             <header className="hidden justify-between lg:flex items-center">
@@ -47,26 +52,45 @@ export default function Header() {
                     />
                 </div>
                 <div className=" items-center flex justify-between">
-                    <Link
-                        href={"/register"}
-                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
-                    >
-                        Booking table
-                    </Link>
+                    {user && (
+                        <>
+                            <button
+                                className="text-white text-2xl text-center"
+                                onClick={() => {
+                                    signOut(auth);
+                                }}
+                            >
+                                Log out
+                            </button>
+                            <p className="text-white text-2xl text-center">
+                                {user.email}
+                            </p>
+                        </>
+                    )}
+                    {!user && (
+                        <>
+                            <Link
+                                href={"/register"}
+                                className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                            >
+                                Booking table
+                            </Link>
 
-                    <Link
-                        href={"/login"}
-                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
-                    >
-                        Login
-                    </Link>
-                    <Link
-                        href={"/register"}
-                        className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
-                    >
-                        Register
-                    </Link>
-                    <Cart />
+                            <Link
+                                href={"/login"}
+                                className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                            >
+                                Login
+                            </Link>
+                            <Link
+                                href={"/register"}
+                                className="text-[1rem] font-semibold mr-4 text-white h-7 px-2 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all hover:bg-orange-400 "
+                            >
+                                Register
+                            </Link>
+                            <Cart />
+                        </>
+                    )}
                 </div>
             </header>
             <HamburgerMenu />
