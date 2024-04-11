@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 
-export default function profile() {
+export default function Profile() {
     const [user, loading, error] = useAuthState(auth);
     const router = useRouter();
 
