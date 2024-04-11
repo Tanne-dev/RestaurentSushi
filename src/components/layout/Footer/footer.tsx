@@ -9,7 +9,7 @@ const Footer = () => {
                     <h2 className="text-xl font-bold mb-4">WowWraps</h2>
                     <p>Download the KIYORA app today.</p>
                     <div className="flex mt-4">
-                        <Link href="/app-store">
+                        <Link href={"/"}>
                             <Image
                                 src="/"
                                 alt="App Store"
@@ -17,7 +17,7 @@ const Footer = () => {
                                 height={40}
                             />
                         </Link>
-                        <Link href="/google-play">
+                        <Link href={"/"}>
                             <Image
                                 src="/"
                                 alt="Google Play"
@@ -33,19 +33,19 @@ const Footer = () => {
                     <ul>
                         {/* Replace with your actual paths */}
                         <li>
-                            <Link href="/">Home</Link>
+                            <Link href={"/"}>Home</Link>
                         </li>
                         <li>
-                            <Link href="/about">About Us</Link>
+                            <Link href={"/"}>About Us</Link>
                         </li>
                         <li>
-                            <Link href="/services">Services</Link>
+                            <Link href={"/"}>Services</Link>
                         </li>
                         <li>
-                            <Link href="/booking">Booking</Link>
+                            <Link href={"/"}>Booking</Link>
                         </li>
                         <li>
-                            <Link href="/menu">Menu</Link>
+                            <Link href={"/"}>Menu</Link>
                         </li>
                     </ul>
                 </div>
@@ -67,16 +67,16 @@ const Footer = () => {
                     <h4 className="font-semibold mb-3">Follow us</h4>
                     <ul>
                         <li>
-                            <Link href="/facebook">Facebook</Link>
+                            <Link href={"/"}>Facebook</Link>
                         </li>
                         <li>
-                            <Link href="/instagram">Instagram</Link>
+                            <Link href={"/"}>Instagram</Link>
                         </li>
                         <li>
-                            <Link href="/linkedin">Linkedin</Link>
+                            <Link href={"/"}>Linkedin</Link>
                         </li>
                         <li>
-                            <Link href="/twitter">Twitter</Link>
+                            <Link href={"/"}>Twitter</Link>
                         </li>
                     </ul>
                 </div>
