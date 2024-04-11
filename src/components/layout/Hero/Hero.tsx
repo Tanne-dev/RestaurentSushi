@@ -23,7 +23,7 @@ export default function Hero() {
                         The Best Sushi For <br /> The Best Moments
                     </h1>
                     <p className="text-[1rem] mt-3 lg:mt-0 text-orange-200 ">
-                        We've got famous chefs and Tanne, Kenny Change, Hakim
+                        We've got famous chefs and Tanne, Kenny,Hakim
                         <br className="hidden lg:block" /> Woolf—to thank for
                         some of the greatest food quotes of all time.
                     </p>

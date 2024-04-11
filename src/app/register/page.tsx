@@ -2,6 +2,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function RegisterPage() {
     const [creatingUser, setCreatingUser] = useState(false);
     const [userCreated, setUserCreated] = useState(false);
     const [error, setError] = useState(false);
+    const router = useRouter();
 
     const handleFormSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
@@ -22,6 +24,9 @@ export default function RegisterPage() {
                 password
             );
             setEmail(""), setPassword(""), setUserCreated(true);
+            setTimeout(() => {
+                router.push("/profile");
+            }, 1000);
         } catch (error: any) {
             if (error.code === "auth/email-already-in-use") {
                 setError(true);

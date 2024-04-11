@@ -16,7 +16,7 @@ export default function LoginPage() {
 
         try {
             await signInWithEmailAndPassword(email, password);
-            router.push("/member");
+            router.push("/profile");
         } catch (error) {
             console.error(error);
         }
@@ -25,6 +25,11 @@ export default function LoginPage() {
     return (
         <section className="mt-8">
             <h1 className="text-center text-white">Login</h1>
+            {/* {checkEmail && (
+                <>
+                    <p>Please check your id </p>
+                </>
+            )} */}
             <form
                 onSubmit={HandleSignInSubmit}
                 className="block max-w-xs mx-auto"

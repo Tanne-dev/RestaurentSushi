@@ -1,11 +1,10 @@
 "use client";
-// pages/members/index.tsx
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/app/firebase/config";
 
-const MembersPage: React.FC = () => {
+export default function Profile() {
     const [user, loading, error] = useAuthState(auth);
     const router = useRouter();
 
@@ -32,9 +31,6 @@ const MembersPage: React.FC = () => {
             <p className="text-white text-2xl">
                 Hello, {user?.email || "Guest"}!
             </p>
-            <button onClick={() => auth.signOut()}>Sign Out</button>
         </div>
     );
-};
-
-export default MembersPage;
+}
