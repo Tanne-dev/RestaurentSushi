@@ -20,7 +20,7 @@ input[type="text"] {
     @apply px-4;
 }
 p {
-    @apply text-2xl text-white;
+    @apply text-[16px] text-white;
 }
 h3 {
     @apply text-4xl text-white font-medium;

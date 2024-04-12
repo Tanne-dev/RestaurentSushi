@@ -6,10 +6,10 @@ import Cart from "@/components/icon/cart";
 import { auth } from "@/app/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
-
+import { useRouter } from "next/navigation";
 export default function Header() {
     const [user] = useAuthState(auth);
-
+    const router = useRouter();
     return (
         <>
             <header className="hidden justify-between lg:flex items-center">
@@ -58,6 +58,7 @@ export default function Header() {
                                 className="text-white text-2xl text-center"
                                 onClick={() => {
                                     signOut(auth);
+                                    router.push("/");
                                 }}
                             >
                                 Log out
