@@ -11,8 +11,6 @@ export default function Profile() {
 
     const handleSubmit = (event: { preventDefault: () => void }) => {
         event.preventDefault();
-        // Gửi dữ liệu form đi ở đây
-        console.log("Submitted:", { name, telefone, password });
     };
 
     return (
