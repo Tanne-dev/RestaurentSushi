@@ -10,7 +10,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [stateLogin, setStateLogin] = useState(false);
-    const [userLogin, setUserLogin] = useState("");
+    const [userLogin, setUserLogin] = useState("wellcome");
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const router = useRouter();
 
@@ -40,10 +40,13 @@ export default function LoginPage() {
         <section className="mt-8">
             <h1 className="text-center text-white">Login</h1>
 
-            <p className="text-center my-4 text-white">
-                Wellcome to Kiyora , please login your account under.
-            </p>
-
+            {userLogin === "wellcome" && (
+                <>
+                    <p className="text-center my-4 text-white">
+                        Wellcome to Kiyora , please login your account under.
+                    </p>
+                </>
+            )}
             {userLogin === "success" && (
                 <>
                     <p className="text-center my-4 text-white">
@@ -64,6 +67,9 @@ export default function LoginPage() {
                 className="block max-w-xs mx-auto"
             >
                 <input
+                    onKeyDown={() => {
+                        setUserLogin("wellcome");
+                    }}
                     type="email"
                     placeholder="email"
                     name="email"
@@ -72,6 +78,9 @@ export default function LoginPage() {
                     onChange={(ev) => setEmail(ev.target.value)}
                 />
                 <input
+                    onKeyDown={() => {
+                        setUserLogin("wellcome");
+                    }}
                     type="password"
                     placeholder="password"
                     name="password"
