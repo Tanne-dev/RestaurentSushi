@@ -1,14 +1,16 @@
 "use client";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
+import { resolve } from "path/win32";
+import { boolean } from "webidl-conversions";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userLogin, setUserlogin] = useState(false);
+    const [stateLogin, setStateLogin] = useState(false);
+    const [userLogin, setUserLogin] = useState("");
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const router = useRouter();
 
@@ -17,23 +19,32 @@ export default function LoginPage() {
 
         try {
             const res = await signInWithEmailAndPassword(email, password);
-            console.log({ res });
-            if (res) {
+            if (res?.user) {
+                setUserLogin("success");
                 setTimeout(() => {
                     router.push("/profile");
-                }, 3000);
+                }, 1000);
+                setStateLogin(true);
+            } else {
+                setUserLogin("failed");
+                setStateLogin(false);
             }
         } catch (error) {
             console.error(error);
-        } finally {
-            setUserlogin(true);
+            setUserLogin("failed");
+            setStateLogin(false);
         }
     };
 
     return (
         <section className="mt-8">
             <h1 className="text-center text-white">Login</h1>
-            {userLogin && (
+
+            <p className="text-center my-4 text-white">
+                Wellcome to Kiyora , please login your account under.
+            </p>
+
+            {userLogin === "success" && (
                 <>
                     <p className="text-center my-4 text-white">
                         Login Success please wait few second will move to next
@@ -41,10 +52,10 @@ export default function LoginPage() {
                     </p>
                 </>
             )}
-            {!userLogin && (
+            {userLogin === "failed" && (
                 <>
                     <p className="text-center my-4 text-white">
-                        Please check your id and password again ^^
+                        Oops something went wrong please check again ^^
                     </p>
                 </>
             )}
@@ -56,8 +67,8 @@ export default function LoginPage() {
                     type="email"
                     placeholder="email"
                     name="email"
+                    disabled={stateLogin}
                     value={email}
-                    disabled={userLogin}
                     onChange={(ev) => setEmail(ev.target.value)}
                 />
                 <input
@@ -65,7 +76,7 @@ export default function LoginPage() {
                     placeholder="password"
                     name="password"
                     value={password}
-                    disabled={userLogin}
+                    disabled={stateLogin}
                     onChange={(ev) => setPassword(ev.target.value)}
                 />
                 <button type="submit">Login</button>
