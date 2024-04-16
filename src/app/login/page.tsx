@@ -16,7 +16,7 @@ export default function LoginPage() {
 
     const HandleSignInSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
-
+        setStateLogin(false);
         try {
             const res = await signInWithEmailAndPassword(email, password);
             if (res?.user) {

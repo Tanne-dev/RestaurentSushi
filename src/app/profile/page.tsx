@@ -1,69 +1,84 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "@/app/firebase/config";
+import React, { useState } from "react";
+import { db } from "@/app/firebase/config";
+import { addDoc, collection } from "firebase/firestore";
+import { headers } from "next/headers";
 
-export default function Profile() {
-    const [name, setName] = useState("");
-    const [telefone, setTelefone] = useState("");
-    const [adress, setAdress] = useState("");
-
-    const handleSubmit = (event: { preventDefault: () => void }) => {
-        event.preventDefault();
+function ProfileForm() {
+    const [profileUser, setProfileUser] = useState({
+        name: "",
+        phone: "",
+        address: "",
+    });
+    const HandleForm = async (e) => {
+        e.preventDefault();
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                profileUser,
+            }),
+        };
+        const res = await fetch(
+            "https://restaurent-sushi-default-rtdb.firebaseio.com/UserData.json",
+            options
+        );
+        console.log(res);
+        if (res) {
+            setProfileUser({
+                name: "",
+                phone: "",
+                address: "",
+            });
+            alert("Đã cập nhật Thông tin thành công");
+        } else {
+            alert("Lỗi cập nhật");
+        }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-            <h1 className="text-2xl font-semibold my-4">Profile</h1>
-            <div className="my-4">
-                <label className="block text-white">First Name</label>
+        <>
+            <form onSubmit={HandleForm}>
                 <input
-                    id="name"
+                    value={profileUser.name}
                     type="text"
-                    className="form-input py-2  rounded-xl block w-full"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="Name"
+                    placeholder="Name"
+                    onChange={(e) =>
+                        setProfileUser({ ...profileUser, name: e.target.value })
+                    }
                 />
-            </div>
-            <div className="my-4">
-                <label className="block text-white">Last Name</label>
                 <input
-                    id="name"
+                    value={profileUser.phone}
                     type="text"
-                    className="form-input py-2  rounded-xl block w-full"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="Number"
+                    placeholder="Phone Number"
+                    onChange={(e) =>
+                        setProfileUser({
+                            ...profileUser,
+                            phone: e.target.value,
+                        })
+                    }
                 />
-            </div>
-            <div className="my-4">
-                <label className="block text-white">telefone</label>
+
                 <input
-                    id="telefone"
-                    type="telefone"
-                    className="form-input py-2  rounded-xl block w-full"
-                    value={telefone}
-                    onChange={(e) => setTelefone(e.target.value)}
+                    type="text"
+                    placeholder="Address"
+                    name="Address"
+                    value={profileUser.address}
+                    onChange={(e) =>
+                        setProfileUser({
+                            ...profileUser,
+                            address: e.target.value,
+                        })
+                    }
                 />
-            </div>
-            <div className="my-4">
-                <label className="block text-white">Adress</label>
-                <input
-                    id="adress"
-                    type="adress"
-                    className="form-input py-2  rounded-xl block w-full"
-                    value={adress}
-                    onChange={(e) => setAdress(e.target.value)}
-                />
-            </div>
-            <div className="flex justify-end">
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                    Save
-                </button>
-            </div>
-        </form>
+                <button type="submit">Submit Profile</button>
+            </form>
+        </>
     );
 }
+
+export default ProfileForm;
