@@ -10,7 +10,7 @@ function ProfileForm() {
         phone: "",
         address: "",
     });
-    const HandleForm = async (e) => {
+    const HandleForm = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
         const options = {
             method: "POST",
