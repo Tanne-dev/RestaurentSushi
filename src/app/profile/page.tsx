@@ -1,24 +1,32 @@
 "use client";
 import React, { useState } from "react";
-import { db } from "@/app/firebase/config";
-import { addDoc, collection } from "firebase/firestore";
-import { headers } from "next/headers";
-
-function ProfileForm() {
+import { getAuth } from "firebase/auth";
+function ProfilePage() {
     const [profileUser, setProfileUser] = useState({
         name: "",
         phone: "",
         address: "",
     });
+    const auth = getAuth();
     const HandleForm = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            console.log("U need login first");
+            return;
+        }
+
+        const UserDataWithUID = {
+            ...profileUser,
+            uid: auth.currentUser.uid,
+        };
         const options = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                profileUser,
+                userData: UserDataWithUID,
             }),
         };
         const res = await fetch(
@@ -42,6 +50,7 @@ function ProfileForm() {
         <>
             <form onSubmit={HandleForm}>
                 <input
+                    className="w-[30%]"
                     value={profileUser.name}
                     type="text"
                     name="Name"
@@ -51,6 +60,7 @@ function ProfileForm() {
                     }
                 />
                 <input
+                    className="w-[5rem]"
                     value={profileUser.phone}
                     type="text"
                     name="Number"
@@ -64,6 +74,7 @@ function ProfileForm() {
                 />
 
                 <input
+                    className="w-[30%]"
                     type="text"
                     placeholder="Address"
                     name="Address"
@@ -81,4 +92,4 @@ function ProfileForm() {
     );
 }
 
-export default ProfileForm;
+export default ProfilePage;
