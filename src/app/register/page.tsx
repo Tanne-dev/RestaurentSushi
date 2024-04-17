@@ -1,12 +1,13 @@
 "use client";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/app/firebase/config";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [displayName, setDisplayName] = useState("");
     const [creatingUser, setCreatingUser] = useState(false);
     const [userCreated, setUserCreated] = useState(false);
     const [error, setError] = useState(false);
@@ -15,18 +16,23 @@ export default function RegisterPage() {
     const handleFormSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
         setCreatingUser(true);
-        setUserCreated(false);
+        setUserCreated(true);
         setError(false);
+
         try {
             const res = await createUserWithEmailAndPassword(
                 auth,
                 email,
                 password
             );
+            await updateProfile(res.user, {
+                displayName: displayName,
+            });
             setEmail(""), setPassword(""), setUserCreated(true);
+
             setTimeout(() => {
                 router.push("/profile");
-            }, 1000);
+            }, 1500);
         } catch (error: any) {
             if (error.code === "auth/email-already-in-use") {
                 setError(true);
@@ -54,15 +60,22 @@ export default function RegisterPage() {
                 onSubmit={handleFormSubmit}
             >
                 <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={displayName}
+                    disabled={creatingUser}
+                    onChange={(ev) => setDisplayName(ev.target.value)}
+                />
+                <input
                     type="email"
-                    placeholder="email"
+                    placeholder="Email"
                     value={email}
                     disabled={creatingUser}
                     onChange={(ev) => setEmail(ev.target.value)}
                 />
                 <input
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
                     value={password}
                     disabled={creatingUser}
                     onChange={(ev) => setPassword(ev.target.value)}

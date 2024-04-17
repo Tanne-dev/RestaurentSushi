@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 button {
-    @apply block w-full text-white h-9 px-6;
+    @apply block mx-auto w-fit text-white h-9 px-6;
     @apply hover:bg-orange-400 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all;
 }
 button[type="submit"],
 button.submit {
-    @apply text-white;
+    @apply text-white w-[20rem];
 }
 input[type="email"],
 input[type="password"],
 input[type="text"] {
-    @apply block w-full my-4 rounded-xl;
+    @apply block w-[20rem] my-4 mx-auto rounded-xl;
     @apply border p-2 border-white;
 }
 ::placeholder {
