@@ -23,7 +23,7 @@ export default function RootLayout({
         <html lang="en">
             <body
                 className={josefin_Sans.className}
-                style={{ backgroundColor: "black" }}
+                style={{ backgroundColor: "black", minHeight: "100vh" }}
             >
                 <main className="max-w-[1170px] mx-auto ">
                     <Header></Header>

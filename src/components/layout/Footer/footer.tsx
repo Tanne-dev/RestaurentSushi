@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className="bg-orange-600 text-white mt-[10rem]">
-            <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-5 gap-8">
+        <footer className="bg-orange-600 text-white relative  ">
+            <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-5 gap-8">
                 <div>
                     <h2 className="text-xl font-bold mb-4">WowWraps</h2>
                     <p>Download the KIYORA app today.</p>

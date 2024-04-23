@@ -28,7 +28,10 @@ export default function RegisterPage() {
             await updateProfile(res.user, {
                 displayName: displayName,
             });
-            setEmail(""), setPassword(""), setUserCreated(true);
+            setEmail(""),
+                setPassword(""),
+                setDisplayName(""),
+                setUserCreated(true);
 
             setTimeout(() => {
                 router.push("/profile");

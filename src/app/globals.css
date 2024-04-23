@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 button {
-    @apply block mx-auto w-fit text-white h-9 px-6;
+    @apply w-fit text-white h-9 px-6;
     @apply hover:bg-orange-400 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all;
 }
 button[type="submit"],
