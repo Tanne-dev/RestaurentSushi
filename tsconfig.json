@@ -35,7 +35,8 @@
         "src/app/firebase/config.jsx",
         "src/app/register/page.jsx",
         "src/app/login/page.jsx",
-        "src/app/register/page.jsx"
+        "src/app/register/page.jsx",
+        "src/components/libary/Context.js"
     ],
     "exclude": ["node_modules"]
 }

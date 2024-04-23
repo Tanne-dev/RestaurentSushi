@@ -37,7 +37,7 @@ export default function LoginPage() {
     };
 
     return (
-        <section className="mt-8">
+        <section className="mt-8 pb-4 ">
             <h1 className="text-center text-white">Login</h1>
 
             {userLogin === "wellcome" && (
