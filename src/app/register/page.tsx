@@ -32,7 +32,6 @@ export default function RegisterPage() {
                 setPassword(""),
                 setDisplayName(""),
                 setUserCreated(true);
-
             setTimeout(() => {
                 router.push("/profile");
             }, 1500);
