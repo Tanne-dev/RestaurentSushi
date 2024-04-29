@@ -2,9 +2,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
-import { resolve } from "path/win32";
-import { boolean } from "webidl-conversions";
+import { database, auth } from "../firebase/config";
+import { collection } from "firebase/firestore";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -19,7 +18,8 @@ export default function LoginPage() {
         setStateLogin(false);
         try {
             const res = await signInWithEmailAndPassword(email, password);
-            if (res?.user) {
+
+            if (res) {
                 setUserLogin("success");
                 setTimeout(() => {
                     router.push("/profile");

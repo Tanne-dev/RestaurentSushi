@@ -1,19 +1,20 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Firestore, doc, getFirestore, getDoc } from "firebase/firestore";
-import firebase from "firebase/compat/app";
-import { getDatabase, ref } from "firebase/database";
+import React, { useState, useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { database } from "../firebase/config";
+import { ref as dbRef, set, onValue, off } from "firebase/database";
+import {
+    getStorage,
+    uploadBytesResumable,
+    ref as storageRef,
+    getDownloadURL,
+} from "firebase/storage";
 
 function ProfilePage() {
     const auth = getAuth();
-    const db = getFirestore();
-    const [userImage, setUserImage] = useState("/Avatar.jpg");
-    const [userName, setUserName] = useState("");
     const [saved, setSaved] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
-
     const [profileUser, setProfileUser] = useState({
         name: "",
         phone: "",
@@ -21,42 +22,80 @@ function ProfilePage() {
         city: "",
         country: "",
         postnumber: "",
+        // imageUrl: "",
     });
-    const HandleForm = async (e: { preventDefault: () => void }) => {
+    // Check currentUser login or not
+
+    // Save Usercurrent UID to state
+
+    // Add data to firebase
+    const UserDataWithUID = {
+        ...profileUser,
+        uid: auth.currentUser?.uid,
+    };
+    const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
         e.preventDefault();
+
+        set(dbRef(database, "Profiles/" + UserDataWithUID.uid), {
+            profileUser,
+        })
+            .then(() => {
+                setIsSaving(false);
+                setSaved(true);
+                alert("data added successfully");
+            })
+            .catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
+            });
+    };
+    // Listen if anything change in state Profile and update
+    useEffect(() => {
         const currentUser = auth.currentUser;
         if (!currentUser) {
             console.log("U need login first");
             return;
         }
-
-        const UserDataWithUID = {
-            ...profileUser,
-            uid: auth.currentUser.uid,
+        const profileRef = dbRef(database, "Profiles/" + UserDataWithUID.uid);
+        onValue(profileRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                // Nếu có dữ liệu, cập nhật trạng thái profileUser với dữ liệu mới
+                setProfileUser(data.profileUser);
+            }
+        });
+        // Cleanup function để ngăn chặn sự lắng nghe nhiều lần
+        return () => {
+            off(profileRef);
         };
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userData: UserDataWithUID,
-            }),
-        };
-        const res = await fetch(
-            "https://restaurent-sushi-default-rtdb.firebaseio.com/UserData.json",
-            options
-        );
-        console.log(res);
-        if (res) {
-            setIsSaving(false);
-            setSaved(true);
-        } else {
-            alert("Lỗi cập nhật");
-        }
-    };
+    }, [auth.currentUser]);
+    // Handle update Image
+    // const handleImgUpload = (e) => {
+    //     const Storage = getStorage();
+    //     const file = e.target.files[0];
+    //     const storageRefIMG = storageRef(Storage, `images/${file.name}`);
+    //     const uploadTask = uploadBytesResumable(storageRefIMG, file);
+    //     uploadTask.on(
+    //         "state_changed",
+    //         (snapshot) => {
+    //             // Xử lý tiến trình tải lên (nếu cần)
+    //         },
+    //         (error) => {
+    //             console.error(error);
+    //         },
+    //         () => {
+    //             // Tải lên thành công, lấy đường dẫn download và cập nhật trạng thái profileUser.imageUrl
+    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //                 setProfileUser((prevProfileUser) => ({
+    //                     ...prevProfileUser,
+    //                     imageUrl: downloadURL,
+    //                 }));
+    //             });
+    //         }
+    //     );
+    // };
 
     return (
         <>
@@ -81,7 +120,7 @@ function ProfilePage() {
 
                 <form
                     className="flex justify-center mx-auto w-full"
-                    onSubmit={HandleForm}
+                    onSubmit={addData}
                 >
                     <div className="flex flex-col mx-auto items-center left-[15%]  top-[10%] absolute">
                         <div className="p-2 rounded-full drop-shadow-xl bg-white">
@@ -91,20 +130,27 @@ function ProfilePage() {
                                 objectFit="cover"
                                 width={200}
                                 height={100}
-                                src={userImage}
+                                src={"/Avatar.jpg"}
                             ></Image>
                         </div>
+                        {/* Control update image */}
                         <label className="mt-3">
                             <span className=" cursor-pointer border p-2 rounded-xl border-white text-white">
                                 Edit Avatar
                             </span>
-                            <input type="file" className="hidden" />
+                            <input
+                                type="file"
+                                name="Image"
+                                // value={profileUser.imageUrl}
+                                // onChange={handleImgUpload}
+                                className="hidden"
+                            />
                         </label>
                     </div>
                     <div className="flex flex-col items-center">
                         <input
                             className="w-[30%]"
-                            value={userName}
+                            value={profileUser.name}
                             type="text"
                             name="Name"
                             placeholder="Name"
@@ -180,9 +226,11 @@ function ProfilePage() {
                                 })
                             }
                         />
-                        <button className="mx-auto" type="submit">
-                            Save
-                        </button>
+                        <div>
+                            <button className="mx-auto" type="submit">
+                                Save
+                            </button>
+                        </div>
                     </div>
                 </form>
                 <div></div>
