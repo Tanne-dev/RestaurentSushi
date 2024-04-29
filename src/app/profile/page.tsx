@@ -67,7 +67,7 @@ function ProfilePage() {
         return () => {
             off(profileRef);
         };
-    }, [UserDataWithUID.uid]);
+    }, [auth.currentUser]);
     // Handle update Image
     // const handleImgUpload = (e) => {
     //     const Storage = getStorage();
