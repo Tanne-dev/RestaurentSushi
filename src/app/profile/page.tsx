@@ -25,21 +25,19 @@ function ProfilePage() {
         // imageUrl: "",
     });
     // Check currentUser login or not
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-        console.log("U need login first");
-        return;
-    }
+
     // Save Usercurrent UID to state
+
+    // Add data to firebase
     const UserDataWithUID = {
         ...profileUser,
-        uid: auth.currentUser.uid,
+        uid: auth.currentUser?.uid,
     };
-    // Add data to firebase
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
         e.preventDefault();
+
         set(dbRef(database, "Profiles/" + UserDataWithUID.uid), {
             profileUser,
         })
@@ -55,6 +53,11 @@ function ProfilePage() {
     };
     // Listen if anything change in state Profile and update
     useEffect(() => {
+        const currentUser = auth.currentUser;
+        if (!currentUser) {
+            console.log("U need login first");
+            return;
+        }
         const profileRef = dbRef(database, "Profiles/" + UserDataWithUID.uid);
         onValue(profileRef, (snapshot) => {
             const data = snapshot.val();
