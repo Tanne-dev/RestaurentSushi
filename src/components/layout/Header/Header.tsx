@@ -7,13 +7,8 @@ import { auth } from "@/app/firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { ref, get } from "firebase/database";
-import { collection } from "firebase/firestore";
-
 export default function Header() {
     const [user] = useAuthState(auth);
-
     const router = useRouter();
     return (
         <>
