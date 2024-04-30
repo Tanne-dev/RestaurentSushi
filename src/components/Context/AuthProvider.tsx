@@ -22,7 +22,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     photoURL,
                 });
                 setIsLoading(false);
-                alert("Chúc mừng bạn đã đăng nhập thành công");
+                router.push("/");
             } else {
                 setUser({});
                 setIsLoading(false);
