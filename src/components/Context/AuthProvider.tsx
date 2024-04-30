@@ -22,7 +22,13 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     photoURL,
                 });
                 setIsLoading(false);
-                router.push("/");
+                const previousURL = localStorage.getItem("previousURL");
+                if (previousURL) {
+                    router.push(previousURL);
+                    localStorage.removeItem("previousURL");
+                } else {
+                    router.push("/");
+                }
             } else {
                 setUser({});
                 setIsLoading(false);
