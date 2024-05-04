@@ -22,7 +22,7 @@ export default function LoginPage() {
             if (res) {
                 setUserLogin("success");
                 setTimeout(() => {
-                    router.push("/profile");
+                    router.push("/");
                 }, 1000);
                 setStateLogin(true);
             } else {

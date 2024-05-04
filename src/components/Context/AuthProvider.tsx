@@ -21,6 +21,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     uid,
                     photoURL,
                 });
+                localStorage.setItem("uid", uid);
                 setIsLoading(false);
 
                 // Kiểm tra nếu có redirectUrl, chuyển hướng người dùng đến đó
@@ -31,6 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
             } else {
                 setUser({});
                 setIsLoading(false);
+                localStorage.removeItem("uid");
                 // Nếu không có user, chuyển hướng đến trang đăng nhập và lưu trữ redirectUrl
                 if (router.pathname !== "/login") {
                     setRedirectUrl(router.pathname);

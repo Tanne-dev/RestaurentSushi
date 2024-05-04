@@ -1,18 +1,20 @@
 "use client";
-import Image from "next/image";
+
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { database } from "../firebase/config";
+import { database, storage } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
+import EditableImage from "@/components/layout/EditableImage/EditableImage";
 import {
-    getStorage,
+    getMetadata,
     uploadBytesResumable,
     ref as storageRef,
-    getDownloadURL,
+    uploadBytes,
 } from "firebase/storage";
-
 function ProfilePage() {
     const auth = getAuth();
+    const [user, setUser] = useState(null);
+    const [uploadAvatar, setUploadAvatar] = useState<any>(null);
     const [saved, setSaved] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [profileUser, setProfileUser] = useState({
@@ -22,23 +24,39 @@ function ProfilePage() {
         city: "",
         country: "",
         postnumber: "",
-        // imageUrl: "",
     });
-    // Check currentUser login or not
+    // Add image to firebase storage
+    const handleUpdateAvatar = async (e) => {
+        e.preventDefault();
 
-    // Save Usercurrent UID to state
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            setUploadAvatar(files[0]);
+        }
+        if (uploadAvatar == null) {
+            return;
+        }
+        const ImageRef = storageRef(storage, `images/+${uploadAvatar + uid}`);
+
+        uploadBytes(ImageRef, uploadAvatar)
+            .then(() => {
+                alert("updated success image");
+            })
+            .catch((error) => {
+                // Xử lý khi có lỗi xảy ra trong quá trình tải lên (nếu cần)
+                console.error("Error uploading file:", error);
+            });
+    };
 
     // Add data to firebase
-    const UserDataWithUID = {
-        ...profileUser,
-        uid: auth.currentUser?.uid,
-    };
+    const uid = localStorage.getItem("uid");
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
+
         e.preventDefault();
 
-        set(dbRef(database, "Profiles/" + UserDataWithUID.uid), {
+        set(dbRef(database, "Profiles/" + uid), {
             profileUser,
         })
             .then(() => {
@@ -58,7 +76,7 @@ function ProfilePage() {
             console.log("U need login first");
             return;
         }
-        const profileRef = dbRef(database, "Profiles/" + UserDataWithUID.uid);
+        const profileRef = dbRef(database, "Profiles/" + uid);
         onValue(profileRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -71,32 +89,6 @@ function ProfilePage() {
             off(profileRef);
         };
     }, [auth.currentUser]);
-    // Handle update Image
-    // const handleImgUpload = (e) => {
-    //     const Storage = getStorage();
-    //     const file = e.target.files[0];
-    //     const storageRefIMG = storageRef(Storage, `images/${file.name}`);
-    //     const uploadTask = uploadBytesResumable(storageRefIMG, file);
-    //     uploadTask.on(
-    //         "state_changed",
-    //         (snapshot) => {
-    //             // Xử lý tiến trình tải lên (nếu cần)
-    //         },
-    //         (error) => {
-    //             console.error(error);
-    //         },
-    //         () => {
-    //             // Tải lên thành công, lấy đường dẫn download và cập nhật trạng thái profileUser.imageUrl
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                 setProfileUser((prevProfileUser) => ({
-    //                     ...prevProfileUser,
-    //                     imageUrl: downloadURL,
-    //                 }));
-    //             });
-    //         }
-    //     );
-    // };
-
     return (
         <>
             <div className="w-full relative pb-5">
@@ -122,31 +114,8 @@ function ProfilePage() {
                     className="flex justify-center mx-auto w-full"
                     onSubmit={addData}
                 >
-                    <div className="flex flex-col mx-auto items-center left-[15%]  top-[10%] absolute">
-                        <div className="p-2 rounded-full drop-shadow-xl bg-white">
-                            <Image
-                                alt="Avatar"
-                                className="rounded-full "
-                                objectFit="cover"
-                                width={200}
-                                height={100}
-                                src={"/Avatar.jpg"}
-                            ></Image>
-                        </div>
-                        {/* Control update image */}
-                        <label className="mt-3">
-                            <span className=" cursor-pointer border p-2 rounded-xl border-white text-white">
-                                Edit Avatar
-                            </span>
-                            <input
-                                type="file"
-                                name="Image"
-                                // value={profileUser.imageUrl}
-                                // onChange={handleImgUpload}
-                                className="hidden"
-                            />
-                        </label>
-                    </div>
+                    <EditableImage onAvatarUpload={handleUpdateAvatar} />
+
                     <div className="flex flex-col items-center">
                         <input
                             className="w-[30%]"
