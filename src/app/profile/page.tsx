@@ -26,7 +26,10 @@ function ProfilePage() {
         postnumber: "",
     });
     // Add image to firebase storage
-    const handleUpdateAvatar = async (e) => {
+    const handleUpdateAvatar = async (e: {
+        preventDefault: () => void;
+        target: { files: any };
+    }) => {
         e.preventDefault();
 
         const files = e.target.files;
