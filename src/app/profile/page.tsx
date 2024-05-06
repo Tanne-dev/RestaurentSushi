@@ -5,6 +5,7 @@ import { getAuth } from "firebase/auth";
 import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
+import Link from "next/link";
 
 function ProfilePage() {
     const auth = getAuth();
@@ -80,6 +81,14 @@ function ProfilePage() {
                         </h4>
                     </>
                 )}
+                <div className="tabs flex gap-2 mt-8 justify-center">
+                    <Link className="active" href={"/"}>
+                        Profile
+                    </Link>
+                    <Link href={"/"}>Catergories</Link>
+                    <Link href={"/"}>Menu Items</Link>
+                    <Link href={"/"}>Users</Link>
+                </div>
 
                 <form
                     className="flex justify-center mx-auto w-full"
