@@ -54,17 +54,16 @@ export default function EditableImage() {
     return (
         <>
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
-                <div className="p-1 rounded-full drop-shadow-xl bg-white  ">
+                <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border border-[2px]">
                     <Image
                         alt={"No Avatar?"}
-                        className="max-h-fit rounded-full max-w-[200px]  "
+                        className="max-h-fit rounded-full max-w-full h-full"
                         objectFit="contain"
-                        layout="fixed"
-                        width={200}
-                        height={200}
+                        layout="fill"
                         src={imageUrl}
                     />
                 </div>
+
                 {/* Control update image */}
                 <label className="mt-3 flex justify-center items-center">
                     <span className="block border border-gray-300 rounded-lg p-2 text-center text-white cursor-pointer">

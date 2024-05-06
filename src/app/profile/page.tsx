@@ -91,7 +91,7 @@ function ProfilePage() {
                 </div>
 
                 <form
-                    className="flex justify-center mx-auto w-full"
+                    className="flex justify-center mx-auto mt-5 w-full"
                     onSubmit={addData}
                 >
                     <EditableImage />
