@@ -2,19 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { database, storage } from "../firebase/config";
+import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
-import {
-    getMetadata,
-    uploadBytesResumable,
-    ref as storageRef,
-    uploadBytes,
-} from "firebase/storage";
+
 function ProfilePage() {
     const auth = getAuth();
-    const [user, setUser] = useState(null);
-    const [uploadAvatar, setUploadAvatar] = useState<any>(null);
     const [saved, setSaved] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [profileUser, setProfileUser] = useState({
@@ -25,38 +18,12 @@ function ProfilePage() {
         country: "",
         postnumber: "",
     });
-    // Add image to firebase storage
-    const handleUpdateAvatar = async (e: {
-        preventDefault: () => void;
-        target: { files: any };
-    }) => {
-        e.preventDefault();
-
-        const files = e.target.files;
-        if (files && files.length > 0) {
-            setUploadAvatar(files[0]);
-        }
-        if (uploadAvatar == null) {
-            return;
-        }
-        const ImageRef = storageRef(storage, `images/+${uploadAvatar + uid}`);
-
-        uploadBytes(ImageRef, uploadAvatar)
-            .then(() => {
-                alert("updated success image");
-            })
-            .catch((error) => {
-                // Xử lý khi có lỗi xảy ra trong quá trình tải lên (nếu cần)
-                console.error("Error uploading file:", error);
-            });
-    };
 
     // Add data to firebase
     const uid = localStorage.getItem("uid");
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
-
         e.preventDefault();
 
         set(dbRef(database, "Profiles/" + uid), {
@@ -79,12 +46,13 @@ function ProfilePage() {
             console.log("U need login first");
             return;
         }
-        const profileRef = dbRef(database, "Profiles/" + uid);
+        const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
         onValue(profileRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 // Nếu có dữ liệu, cập nhật trạng thái profileUser với dữ liệu mới
-                setProfileUser(data.profileUser);
+                setProfileUser(data);
+                console.log(setProfileUser(data));
             }
         });
         // Cleanup function để ngăn chặn sự lắng nghe nhiều lần
@@ -117,7 +85,7 @@ function ProfilePage() {
                     className="flex justify-center mx-auto w-full"
                     onSubmit={addData}
                 >
-                    <EditableImage onAvatarUpload={handleUpdateAvatar} />
+                    <EditableImage />
 
                     <div className="flex flex-col items-center">
                         <input
