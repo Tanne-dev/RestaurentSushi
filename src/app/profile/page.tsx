@@ -1,15 +1,12 @@
 "use client";
-import Image from "next/image";
+
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
-import {
-    getStorage,
-    uploadBytesResumable,
-    ref as storageRef,
-    getDownloadURL,
-} from "firebase/storage";
+import EditableImage from "@/components/layout/EditableImage/EditableImage";
+import Link from "next/link";
+import { message } from "antd";
 
 function ProfilePage() {
     const auth = getAuth();
@@ -22,29 +19,22 @@ function ProfilePage() {
         city: "",
         country: "",
         postnumber: "",
-        // imageUrl: "",
     });
-    // Check currentUser login or not
-
-    // Save Usercurrent UID to state
 
     // Add data to firebase
-    const UserDataWithUID = {
-        ...profileUser,
-        uid: auth.currentUser?.uid,
-    };
+    const uid = localStorage.getItem("uid");
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
         e.preventDefault();
 
-        set(dbRef(database, "Profiles/" + UserDataWithUID.uid), {
+        set(dbRef(database, "Profiles/" + uid), {
             profileUser,
         })
             .then(() => {
                 setIsSaving(false);
                 setSaved(true);
-                alert("data added successfully");
+                message.success("Profile Saved");
             })
             .catch((error) => {
                 alert("Unsuccessful");
@@ -58,12 +48,13 @@ function ProfilePage() {
             console.log("U need login first");
             return;
         }
-        const profileRef = dbRef(database, "Profiles/" + UserDataWithUID.uid);
+        const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
         onValue(profileRef, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 // Nếu có dữ liệu, cập nhật trạng thái profileUser với dữ liệu mới
-                setProfileUser(data.profileUser);
+                setProfileUser(data);
+                console.log(setProfileUser(data));
             }
         });
         // Cleanup function để ngăn chặn sự lắng nghe nhiều lần
@@ -71,32 +62,6 @@ function ProfilePage() {
             off(profileRef);
         };
     }, [auth.currentUser]);
-    // Handle update Image
-    // const handleImgUpload = (e) => {
-    //     const Storage = getStorage();
-    //     const file = e.target.files[0];
-    //     const storageRefIMG = storageRef(Storage, `images/${file.name}`);
-    //     const uploadTask = uploadBytesResumable(storageRefIMG, file);
-    //     uploadTask.on(
-    //         "state_changed",
-    //         (snapshot) => {
-    //             // Xử lý tiến trình tải lên (nếu cần)
-    //         },
-    //         (error) => {
-    //             console.error(error);
-    //         },
-    //         () => {
-    //             // Tải lên thành công, lấy đường dẫn download và cập nhật trạng thái profileUser.imageUrl
-    //             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    //                 setProfileUser((prevProfileUser) => ({
-    //                     ...prevProfileUser,
-    //                     imageUrl: downloadURL,
-    //                 }));
-    //             });
-    //         }
-    //     );
-    // };
-
     return (
         <>
             <div className="w-full relative pb-5">
@@ -117,36 +82,21 @@ function ProfilePage() {
                         </h4>
                     </>
                 )}
+                <div className="tabs flex gap-2 mt-8 justify-center">
+                    <Link className="active" href={"/"}>
+                        Profile
+                    </Link>
+                    <Link href={"/"}>Catergories</Link>
+                    <Link href={"/"}>Menu Items</Link>
+                    <Link href={"/"}>Users</Link>
+                </div>
 
                 <form
-                    className="flex justify-center mx-auto w-full"
+                    className="flex justify-center mx-auto mt-5 w-full"
                     onSubmit={addData}
                 >
-                    <div className="flex flex-col mx-auto items-center left-[15%]  top-[10%] absolute">
-                        <div className="p-2 rounded-full drop-shadow-xl bg-white">
-                            <Image
-                                alt="Avatar"
-                                className="rounded-full "
-                                objectFit="cover"
-                                width={200}
-                                height={100}
-                                src={"/Avatar.jpg"}
-                            ></Image>
-                        </div>
-                        {/* Control update image */}
-                        <label className="mt-3">
-                            <span className=" cursor-pointer border p-2 rounded-xl border-white text-white">
-                                Edit Avatar
-                            </span>
-                            <input
-                                type="file"
-                                name="Image"
-                                // value={profileUser.imageUrl}
-                                // onChange={handleImgUpload}
-                                className="hidden"
-                            />
-                        </label>
-                    </div>
+                    <EditableImage />
+
                     <div className="flex flex-col items-center">
                         <input
                             className="w-[30%]"

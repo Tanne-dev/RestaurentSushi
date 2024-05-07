@@ -3,14 +3,14 @@ import { useState, useEffect, createContext, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/app/firebase/config";
 import { Spin } from "antd";
-import { truncateSync } from "fs";
 
 export const AuthContext = createContext<{ user: any } | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState({});
+    const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const router = useRouter();
+    const router: any = useRouter();
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
@@ -21,24 +21,28 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     uid,
                     photoURL,
                 });
+                localStorage.setItem("uid", uid);
                 setIsLoading(false);
-                const previousURL = localStorage.getItem("previousURL");
-                if (previousURL) {
-                    router.push(previousURL);
-                    localStorage.removeItem("previousURL");
-                } else {
-                    router.push("/");
+
+                // Kiểm tra nếu có redirectUrl, chuyển hướng người dùng đến đó
+                if (redirectUrl) {
+                    router.push(redirectUrl);
+                    setRedirectUrl(null); // Đặt lại redirectUrl sau khi chuyển hướng
                 }
             } else {
                 setUser({});
                 setIsLoading(false);
-                router.push("/login");
+                localStorage.removeItem("uid");
+                // Nếu không có user, chuyển hướng đến trang đăng nhập và lưu trữ redirectUrl
+                if (router.pathname !== "/login") {
+                    setRedirectUrl(router.pathname);
+                    router.push("/login");
+                }
             }
         });
 
         return () => unsubscribe();
-    }, [router]);
-
+    }, [router, redirectUrl]); // Thêm redirectUrl vào dependency array
     return (
         <AuthContext.Provider value={{ user }}>
             {isLoading ? (

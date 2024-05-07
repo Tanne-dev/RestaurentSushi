@@ -22,7 +22,7 @@ export default function LoginPage() {
             if (res) {
                 setUserLogin("success");
                 setTimeout(() => {
-                    router.push("/profile");
+                    router.push("/");
                 }, 1000);
                 setStateLogin(true);
             } else {
@@ -64,7 +64,7 @@ export default function LoginPage() {
             )}
             <form
                 onSubmit={HandleSignInSubmit}
-                className="block max-w-xs mx-auto"
+                className=" w-full  flex flex-col items-center"
             >
                 <input
                     onKeyDown={() => {

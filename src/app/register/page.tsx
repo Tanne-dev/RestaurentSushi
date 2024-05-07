@@ -46,7 +46,11 @@ export default function RegisterPage() {
 
     return (
         <section className="mt-8">
-            <h1 className="text-center text-primary text-4xl mb-4">Register</h1>
+            <h1 className="text-center text-primary mb-4">Register</h1>
+            <p className="text-center my-4 text-white">
+                Wellcome to Kiyora , please Register your account before u
+                login.
+            </p>
             {userCreated && (
                 <p className="text-white text-2xl text-center">
                     Congratulations! You have successfully created an account.
@@ -58,7 +62,7 @@ export default function RegisterPage() {
                 </p>
             )}
             <form
-                className="block max-w-xs mx-auto"
+                className="flex flex-col items-center max-w-xs mx-auto"
                 onSubmit={handleFormSubmit}
             >
                 <input
@@ -83,9 +87,6 @@ export default function RegisterPage() {
                     onChange={(ev) => setPassword(ev.target.value)}
                 />
                 <button type="submit">Register</button>
-                <div className="my-4 text-center text-gray-500">
-                    or login with provider
-                </div>
             </form>
         </section>
     );
