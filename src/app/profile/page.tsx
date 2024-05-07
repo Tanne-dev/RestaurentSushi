@@ -6,6 +6,7 @@ import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
 import Link from "next/link";
+import { message } from "antd";
 
 function ProfilePage() {
     const auth = getAuth();
@@ -33,7 +34,7 @@ function ProfilePage() {
             .then(() => {
                 setIsSaving(false);
                 setSaved(true);
-                alert("data added successfully");
+                message.success("Profile Saved");
             })
             .catch((error) => {
                 alert("Unsuccessful");
