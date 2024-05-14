@@ -7,7 +7,7 @@ button {
     @apply hover:bg-orange-400 border-[2px] rounded-xl hover:shadow-2xl hover:scale-105 duration-300 transition-all;
 }
 div.tabs > * {
-    @apply text-white rounded-full py-2 px-4 border border-[2px] rounded-full;
+    @apply text-white rounded-full py-2 px-4 border-[2px];
 }
 div.tabs > *.active {
     @apply bg-orange-400;
@@ -32,14 +32,4 @@ h1 {
 }
 h2 {
     @apply text-5xl text-white font-medium;
-}
-@keyframes animate-firework {
-    0% {
-        transform: scale(1) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(5) rotate(360deg);
-        opacity: 0;
-    }
 }

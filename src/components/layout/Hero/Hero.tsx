@@ -7,10 +7,10 @@ export default function Hero() {
             <div className="mt-20 lg:mt-0 px-4 mx-auto">
                 <div className=" h-full w-full mt-20 hidden lg:block lg:mt-0 ">
                     <Image
-                        className="  absolute top-[165px] left-0"
+                        className="absolute top-[165px] left-0"
                         src={"/Sushi_hero1.png"}
-                        width={"424"}
-                        height={"422"}
+                        width={422}
+                        height={422}
                         style={{ objectFit: "cover" }}
                         alt={"Sushi"}
                     ></Image>

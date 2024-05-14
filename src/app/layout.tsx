@@ -27,7 +27,7 @@ export default function RootLayout({
                 className={josefin_Sans.className}
                 style={{ backgroundColor: "black", minHeight: "100vh" }}
             >
-                <main className="max-w-[1170px] mx-auto ">
+                <main className="max-w-[1170px]  mx-auto ">
                     <AuthProvider>
                         <Header></Header>
                         {children}

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Footer = () => {
     return (
-        <footer className="bg-orange-600 text-white relative top-5  ">
+        <footer className="bg-orange-600 text-white ">
             <div className="max-w-6xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-5 gap-8">
                 <div>
                     <h2 className="text-xl font-bold mb-4">WowWraps</h2>
@@ -11,6 +11,7 @@ const Footer = () => {
                     <div className="flex mt-4">
                         <Link href={"/"}>
                             <Image
+                                objectFit="contain"
                                 src={"/"}
                                 alt="App Store"
                                 width={120}
@@ -19,6 +20,7 @@ const Footer = () => {
                         </Link>
                         <Link href={"/"}>
                             <Image
+                                objectFit="contain"
                                 src={"/"}
                                 alt="Google Play"
                                 width={120}

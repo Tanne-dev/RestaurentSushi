@@ -7,10 +7,12 @@ import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
 import Link from "next/link";
 import { message } from "antd";
+import UsersTab from "@/components/layout/UsersTab/Userstab";
 
 function ProfilePage() {
     const auth = getAuth();
     const [saved, setSaved] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
     const [isSaving, setIsSaving] = useState(false);
     const [profileUser, setProfileUser] = useState({
         name: "",
@@ -44,9 +46,9 @@ function ProfilePage() {
     // Listen if anything change in state Profile and update
     useEffect(() => {
         const currentUser = auth.currentUser;
-        if (!currentUser) {
-            console.log("U need login first");
-            return;
+        const userEmail = currentUser?.email ?? "";
+        if (currentUser) {
+            setUserEmail(userEmail);
         }
         const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
         onValue(profileRef, (snapshot) => {
@@ -54,7 +56,6 @@ function ProfilePage() {
             if (data) {
                 // Nếu có dữ liệu, cập nhật trạng thái profileUser với dữ liệu mới
                 setProfileUser(data);
-                console.log(setProfileUser(data));
             }
         });
         // Cleanup function để ngăn chặn sự lắng nghe nhiều lần
@@ -82,22 +83,22 @@ function ProfilePage() {
                         </h4>
                     </>
                 )}
-                <div className="tabs flex gap-2 mt-8 justify-center">
-                    <Link className="active" href={"/"}>
-                        Profile
-                    </Link>
-                    <Link href={"/"}>Catergories</Link>
-                    <Link href={"/"}>Menu Items</Link>
-                    <Link href={"/"}>Users</Link>
-                </div>
+                <UsersTab></UsersTab>
 
                 <form
                     className="flex justify-center mx-auto mt-5 w-full"
                     onSubmit={addData}
                 >
                     <EditableImage />
-
                     <div className="flex flex-col items-center">
+                        <input
+                            className="w-[30%]"
+                            value={userEmail}
+                            disabled
+                            type="text"
+                            name="Email"
+                            placeholder="Email"
+                        />
                         <input
                             className="w-[30%]"
                             value={profileUser.name}
@@ -111,7 +112,6 @@ function ProfilePage() {
                                 })
                             }
                         />
-
                         <input
                             className="w-[30%]"
                             value={profileUser.phone}
