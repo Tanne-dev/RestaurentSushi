@@ -30,7 +30,6 @@ export default function LoginPage() {
                 setStateLogin(false);
             }
         } catch (error) {
-            console.error(error);
             setUserLogin("failed");
             setStateLogin(false);
         }

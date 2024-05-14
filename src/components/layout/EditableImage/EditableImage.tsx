@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ref as dbRef, off, onValue, set } from "firebase/database";
@@ -24,12 +25,12 @@ export default function EditableImage() {
                 .then((snapshot) => {
                     getDownloadURL(snapshot.ref).then((url) => {
                         setImageUrl(url);
+
                         // Đặt url image cho bảng profile
                         const profileRef = dbRef(
                             database,
                             `Profiles/${uid}/profileUser/Url`
                         );
-
                         set(profileRef, url).then(() => {
                             setIsUploading(false);
                             message.success("Avatar updated successfully");
@@ -59,7 +60,7 @@ export default function EditableImage() {
     return (
         <>
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
-                <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border border-[2px]">
+                <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border-[2px]">
                     {isUploading ? (
                         <Spin
                             size="large"
@@ -71,11 +72,11 @@ export default function EditableImage() {
                             }}
                         ></Spin>
                     ) : (
-                        <Image
-                            alt={"No Avatar?"}
-                            className="max-h-fit rounded-full max-w-full h-full"
-                            objectFit="contain"
-                            layout="fill"
+                        <img
+                            alt="Avatar"
+                            height={400}
+                            width={400}
+                            className=" rounded-full max-w-full h-full"
                             src={imageUrl}
                         />
                     )}

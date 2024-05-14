@@ -1,50 +1,81 @@
 "use client";
 import { useState, useEffect, createContext, ReactNode } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "@/app/firebase/config";
+import { auth, database } from "@/app/firebase/config";
 import { Spin } from "antd";
+import { ref, get } from "firebase/database";
 
-export const AuthContext = createContext<{ user: any } | null>(null);
+export const AuthContext = createContext<{
+    user: any;
+    isAdmin: boolean;
+} | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState({});
+    const [isAdmin, setIsAdmin] = useState(false);
     const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router: any = useRouter();
+
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            setIsLoading(true);
             if (user) {
                 const { displayName, email, uid, photoURL } = user;
-                setUser({
+                const userData = {
                     displayName,
                     email,
                     uid,
                     photoURL,
-                });
+                };
+                setUser(userData);
                 localStorage.setItem("uid", uid);
+
+                try {
+                    const userRef = ref(database, `Profiles/${uid}`);
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        const additionalUserData = snapshot.val();
+                        setUser((prevUser) => ({
+                            ...prevUser,
+                            ...additionalUserData,
+                        }));
+
+                        if (additionalUserData.profileUser.admin) {
+                            setIsAdmin(true);
+                        } else {
+                            setIsAdmin(false);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+
                 setIsLoading(false);
 
-                // Kiểm tra nếu có redirectUrl, chuyển hướng người dùng đến đó
                 if (redirectUrl) {
                     router.push(redirectUrl);
-                    setRedirectUrl(null); // Đặt lại redirectUrl sau khi chuyển hướng
+                    setRedirectUrl(null);
                 }
             } else {
                 setUser({});
-                setIsLoading(false);
+                setIsAdmin(false);
                 localStorage.removeItem("uid");
-                // Nếu không có user, chuyển hướng đến trang đăng nhập và lưu trữ redirectUrl
-                if (router.pathname !== "/login") {
-                    setRedirectUrl(router.pathname);
-                    router.push("/login");
-                }
+
+                // if (router.pathname !== "/login") {
+                //     setRedirectUrl(router.pathname);
+                //     router.push("/login");
+                // }
+
+                setIsLoading(false);
             }
         });
 
         return () => unsubscribe();
-    }, [router, redirectUrl]); // Thêm redirectUrl vào dependency array
+    }, [router, redirectUrl]);
+
     return (
-        <AuthContext.Provider value={{ user }}>
+        <AuthContext.Provider value={{ user, isAdmin }}>
             {isLoading ? (
                 <Spin
                     style={{
