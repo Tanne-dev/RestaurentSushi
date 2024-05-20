@@ -83,8 +83,8 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                <div>
-                    <h4 className="font-semibold mb-3">Legal</h4>
+                <div className="z-0">
+                    <h4 className="font-semibold  mb-3">Legal</h4>
                     <p>Website Made By Tanne</p>
                     <p>©2022. All Rights Reserved</p>
                 </div>

@@ -8,6 +8,7 @@ import EditableImage from "@/components/layout/EditableImage/EditableImage";
 import Link from "next/link";
 import { message } from "antd";
 import UsersTab from "@/components/layout/UsersTab/Userstab";
+import LogoSpin from "@/components/icon/logospin";
 
 function ProfilePage() {
     const auth = getAuth();
@@ -66,9 +67,6 @@ function ProfilePage() {
     return (
         <>
             <div className="w-full relative pb-5">
-                <div className="flex justify-center">
-                    <h3 className="r-0">My Profile</h3>
-                </div>
                 {saved && (
                     <>
                         <h4 className="bg-green-400 mx-auto w-1/4 p-2 rounded-lg border border-green-300 text-white text-center">
@@ -92,7 +90,7 @@ function ProfilePage() {
                     <EditableImage />
                     <div className="flex flex-col items-center">
                         <input
-                            className="w-[30%]"
+                            className="w-[20rem]"
                             value={userEmail}
                             disabled
                             type="text"
@@ -100,7 +98,7 @@ function ProfilePage() {
                             placeholder="Email"
                         />
                         <input
-                            className="w-[30%]"
+                            className="w-[20rem]"
                             value={profileUser.name}
                             type="text"
                             name="Name"
@@ -113,7 +111,7 @@ function ProfilePage() {
                             }
                         />
                         <input
-                            className="w-[30%]"
+                            className="w-[20rem]"
                             value={profileUser.phone}
                             type="text"
                             name="Number"
@@ -126,7 +124,7 @@ function ProfilePage() {
                             }
                         />
                         <input
-                            className="w-[30%]"
+                            className="w-[20rem]"
                             type="text"
                             placeholder="Address"
                             name="Address"
@@ -139,6 +137,7 @@ function ProfilePage() {
                             }
                         />
                         <input
+                            className="w-[20rem]"
                             type="text"
                             placeholder="Post Number"
                             name="Post Number"
@@ -151,7 +150,7 @@ function ProfilePage() {
                             }
                         />
                         <input
-                            className="pl-2"
+                            className="pl-2 w-[20rem]"
                             type="text"
                             placeholder="City"
                             name="City"
@@ -164,7 +163,7 @@ function ProfilePage() {
                             }
                         />
                         <input
-                            className="w-[30%]"
+                            className="w-[20rem]"
                             type="text"
                             placeholder="Country"
                             name="Country"

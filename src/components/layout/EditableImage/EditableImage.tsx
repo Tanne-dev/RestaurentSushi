@@ -5,6 +5,7 @@ import { ref as dbRef, off, onValue, set } from "firebase/database";
 import { database, storage } from "@/app/firebase/config";
 import { getDownloadURL, uploadBytes, ref as refSto } from "firebase/storage";
 import { Spin, message } from "antd";
+import LogoSpin from "@/components/icon/logospin";
 export default function EditableImage() {
     const [uploadAvatar, setUploadAvatar] = useState<any>(null);
 
@@ -62,17 +63,9 @@ export default function EditableImage() {
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
                 <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border-[2px]">
                     {isUploading ? (
-                        <Spin
-                            size="large"
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                            }}
-                        ></Spin>
+                        <LogoSpin></LogoSpin>
                     ) : (
-                        <img
+                        <Image
                             alt="Avatar"
                             height={400}
                             width={400}

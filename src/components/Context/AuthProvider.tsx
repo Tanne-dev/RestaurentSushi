@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { auth, database } from "@/app/firebase/config";
 import { Spin } from "antd";
 import { ref, get } from "firebase/database";
+import LogoSpin from "../icon/logospin";
 
 export const AuthContext = createContext<{
     user: any;
@@ -61,12 +62,6 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                 setUser({});
                 setIsAdmin(false);
                 localStorage.removeItem("uid");
-
-                // if (router.pathname !== "/login") {
-                //     setRedirectUrl(router.pathname);
-                //     router.push("/login");
-                // }
-
                 setIsLoading(false);
             }
         });
@@ -76,17 +71,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
     return (
         <AuthContext.Provider value={{ user, isAdmin }}>
-            {isLoading ? (
-                <Spin
-                    style={{
-                        position: "fixed",
-                        inset: 0,
-                        color: "white",
-                    }}
-                />
-            ) : (
-                children
-            )}
+            {/* {isLoading ? <LogoSpin /> : children} */} {children}
         </AuthContext.Provider>
     );
 }
