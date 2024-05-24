@@ -4,11 +4,14 @@ import UsersTab from "@/components/layout/UsersTab/Userstab";
 import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
+import Ellipis from "@/components/icon/ellipsis";
+import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect } from "react";
 
 export default function Catergories() {
     const [showEverythingOpen, setShowEverythingOpen] = useState(false);
     const [menuGroupOpen, setMenuGroupOpen] = useState(false);
+
     const showEverythingRef = useRef<HTMLDivElement>(null);
     const menuGroupRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -30,13 +33,13 @@ export default function Catergories() {
     }, []);
 
     return (
-        <section>
+        <section className="duration-200 ease-in-out transition-all ">
             <UsersTab />
-            <div className="text-white flex items-center justify-between p-4">
-                <div>
+            <div className="flex  items-center justify-between p-4">
+                <div className="">
                     <h3>Your Catergories</h3>
                 </div>
-                <div className="gap-2 flex h-10">
+                <div className="gap-2 text-black flex h-10">
                     <label className="group flex items-center p-2 gap-1 justify-center ">
                         <Search />
                         <input
@@ -52,7 +55,7 @@ export default function Catergories() {
                                 setMenuGroupOpen(false);
                             }}
                             type="button"
-                            className="border-[2px] rounded-xl flex items-center gap-1 p-2"
+                            className="border-[2px] rounded-xl flex items-center gap-1 p-2 font-semibold"
                         >
                             <span>Show: Everything</span>
                             {showEverythingOpen ? (
@@ -104,160 +107,49 @@ export default function Catergories() {
                             </span>
                         </div>
                     </div>
-                    <button className="border-[2px] rounded-xl flex items-center gap-1 p-2">
-                        <Setting></Setting>
-                    </button>
+                    <div className="flex flex-col group">
+                        <button className=" relative  border-[2px] rounded-xl flex items-center gap-1 p-2">
+                            <Setting></Setting>
+                        </button>
+                        <ul className=" group-hover:block  transition-all duration-200 rounded-lg ease-in-out hidden absolute  mt-10 translate-x-[-8rem] mx-auto z-[999px] bg-slate-100">
+                            <li className="text-black p-3 hover:bg-orange-300 ">
+                                Create New Item Menu
+                            </li>
+                            <li className="text-black p-3 hover:bg-orange-300 ">
+                                Create New Item Group
+                            </li>
+                            <li className="text-black p-3 hover:bg-orange-300">
+                                Import Menu From CSV
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg   border-t-gray-400">
+
+            {/*  */}
+            <div className="bg-white p-2 border-b-[1px] hover:drop-shadow-lg   border-t-gray-400">
                 <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
                     <div className="grid-cols-1 flex ">
                         <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
+                            <span className="text-black">#</span>
                         </div>
                         <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
+                            <span className="text-black">Item</span>
                         </div>
                     </div>
                     <div className="grid-cols-2"></div>
                     <div className="grid-cols-3 gap-10 flex justify-center">
                         <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
+                            <span className="text-black">PRICE</span>
                         </div>
                         <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
+                            <span className="text-black">SELLING</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg drop-hover:drop-shadow-lg border-t-gray-400">
-                <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
-                        <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
-                        </div>
-                        <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
-                        </div>
-                    </div>
-                    <div className="grid-cols-2"></div>
-                    <div className="grid-cols-3 gap-10 flex justify-center">
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg drop-hover:drop-shadow-lg border-t-gray-400">
-                <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
-                        <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
-                        </div>
-                        <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
-                        </div>
-                    </div>
-                    <div className="grid-cols-2"></div>
-                    <div className="grid-cols-3 gap-10 flex justify-center">
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg   border-t-gray-400">
-                <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
-                        <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
-                        </div>
-                        <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
-                        </div>
-                    </div>
-                    <div className="grid-cols-2"></div>
-                    <div className="grid-cols-3 gap-10 flex justify-center">
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg border-t-gray-400">
-                <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
-                        <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
-                        </div>
-                        <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
-                        </div>
-                    </div>
-                    <div className="grid-cols-2"></div>
-                    <div className="grid-cols-3 gap-10 flex justify-center">
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-gray-400 p-2 border-b-[1px] hover:drop-shadow-lg  border-t-gray-400">
-                <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
-                        <div className="flex flex-col just items-start ml-6 gap-2">
-                            <span className="text-white">#</span>
-                            <span className="text-white">1</span>
-                        </div>
-                        <div className=" flex flex-col items-start ml-6 gap-2">
-                            <span className="text-white">Item</span>
-                            <span className="text-white">Sushi Futo</span>
-                        </div>
-                    </div>
-                    <div className="grid-cols-2"></div>
-                    <div className="grid-cols-3 gap-10 flex justify-center">
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">PRICE</span>
-                            <span className="text-white">Sek 127</span>
-                        </div>
-                        <div className="flex flex-col items-center">
-                            <span className="text-white">SELLING</span>
-                            <span className="text-white">Yes</span>
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <CatergoriesItems />
             </div>
         </section>
     );

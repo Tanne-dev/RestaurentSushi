@@ -51,10 +51,10 @@ export default function Header() {
 
                 <div className="flex items-center">
                     {user ? (
-                        <div className="flex items-center">
+                        <div className="flex items-center ">
                             <Link
                                 href={"/profile"}
-                                className="text-white whitespace-nowrap text-2xl flex-nowrap text-center"
+                                className="text-white font-semibold hover:bg-orange-400 whitespace-nowrap text-2xl p-1 transition-all duration-200  rounded-md flex-nowrap text-center"
                             >
                                 Hej {user.displayName}
                             </Link>
