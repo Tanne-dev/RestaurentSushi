@@ -13,7 +13,7 @@ function ProfilePage() {
     const [saved, setSaved] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [isSaving, setIsSaving] = useState(false);
-    const [uid, setUid] = useState<string | null>(null); // Set the type to string | null
+    const [uid, setUid] = useState<string | null>(null);
     const [profileUser, setProfileUser] = useState({
         name: "",
         phone: "",
@@ -24,6 +24,7 @@ function ProfilePage() {
     });
 
     useEffect(() => {
+        // Chỉ chạy mã này trên client-side
         if (typeof window !== "undefined") {
             const storedUid = localStorage.getItem("uid");
             setUid(storedUid);
