@@ -65,11 +65,11 @@ export default function EditableImage() {
                     {isUploading ? (
                         <LogoSpin></LogoSpin>
                     ) : (
-                        <Image
+                        <img
                             alt="Avatar"
                             height={400}
                             width={400}
-                            className=" rounded-full max-w-full h-full"
+                            className="rounded-full max-w-full h-full"
                             src={imageUrl}
                         />
                     )}
