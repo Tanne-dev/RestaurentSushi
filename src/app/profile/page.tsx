@@ -2,18 +2,23 @@
 
 import React, { useState, useEffect } from "react";
 import { getAuth } from "firebase/auth";
+import { useContext } from "react";
 import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
+import { AuthContext } from "@/components/Context/AuthProvider";
 import { message } from "antd";
 import UsersTab from "@/components/layout/UsersTab/Userstab";
 
 function ProfilePage() {
-    const auth = getAuth();
+    const authContext = useContext(AuthContext);
+    if (!authContext) {
+        return null;
+    }
+    const { uid, user } = authContext;
     const [saved, setSaved] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [isSaving, setIsSaving] = useState(false);
-    const [uid, setUid] = useState<string | null>(null);
     const [profileUser, setProfileUser] = useState({
         name: "",
         phone: "",
@@ -22,74 +27,58 @@ function ProfilePage() {
         country: "",
         postnumber: "",
     });
-
-    useEffect(() => {
-        // Chỉ chạy mã này trên client-side
-        if (typeof window !== "undefined") {
-            const storedUid = localStorage.getItem("uid");
-            setUid(storedUid);
-        }
-    }, []);
-
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
         e.preventDefault();
-
-        if (uid) {
-            set(dbRef(database, "Profiles/" + uid), {
-                profileUser,
+        set(dbRef(database, "Profiles/" + uid), {
+            profileUser,
+        })
+            .then(() => {
+                setIsSaving(false);
+                setSaved(true);
+                message.success("Profile Saved");
             })
-                .then(() => {
-                    setIsSaving(false);
-                    setSaved(true);
-                    message.success("Profile Saved");
-                })
-                .catch((error) => {
-                    alert("Unsuccessful");
-                    console.log(error);
-                });
-        } else {
-            console.log("No UID found in localStorage");
-        }
-    };
-
-    useEffect(() => {
-        const currentUser = auth.currentUser;
-        const userEmail = currentUser?.email ?? "";
-        if (currentUser) {
-            setUserEmail(userEmail);
-        }
-
-        if (uid) {
-            const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
-            onValue(profileRef, (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    setProfileUser(data);
-                }
+            .catch((error) => {
+                alert("Unsuccessful");
+                console.log(error);
             });
-
-            return () => {
-                off(profileRef);
-            };
-        }
-    }, [auth.currentUser, uid]);
-
+    };
+    // Listen if anything change in state Profile and update
+    useEffect(() => {
+        const userEmail = user.email ?? "";
+        setUserEmail(userEmail);
+        const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
+        onValue(profileRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                // Nếu có dữ liệu, cập nhật trạng thái profileUser với dữ liệu mới
+                setProfileUser(data);
+            }
+        });
+        // Cleanup function để ngăn chặn sự lắng nghe nhiều lần
+        return () => {
+            off(profileRef);
+        };
+    }, [user]);
     return (
         <>
             <div className="w-full relative pb-5">
                 {saved && (
-                    <h4 className="bg-green-400 mx-auto w-1/4 p-2 rounded-lg border border-green-300 text-white text-center">
-                        Profile saved!
-                    </h4>
+                    <>
+                        <h4 className="bg-green-400 mx-auto w-1/4 p-2 rounded-lg border border-green-300 text-white text-center">
+                            Profile saved!
+                        </h4>
+                    </>
                 )}
                 {isSaving && (
-                    <h4 className="bg-blue-400 mx-auto w-1/4 p-2 rounded-lg border border-blue-300 text-white text-center">
-                        Profile Saving.......
-                    </h4>
+                    <>
+                        <h4 className="bg-blue-400 mx-auto w-1/4 p-2 rounded-lg border border-blue-300 text-white text-center">
+                            Profile Saving.......
+                        </h4>
+                    </>
                 )}
-                <UsersTab />
+                <UsersTab></UsersTab>
 
                 <form
                     className="flex justify-center mx-auto mt-5 w-full"

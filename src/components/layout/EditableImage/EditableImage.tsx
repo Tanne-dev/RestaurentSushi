@@ -1,18 +1,22 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
+import { useContext } from "react";
 import { ref as dbRef, off, onValue, set } from "firebase/database";
 import { database, storage } from "@/app/firebase/config";
 import { getDownloadURL, uploadBytes, ref as refSto } from "firebase/storage";
 import { Spin, message } from "antd";
+import { AuthContext } from "@/components/Context/AuthProvider";
 import LogoSpin from "@/components/icon/logospin";
 export default function EditableImage() {
     const [uploadAvatar, setUploadAvatar] = useState<any>(null);
-
+    const authContext = useContext(AuthContext);
+    if (!authContext) {
+        return null;
+    }
+    const { uid } = authContext;
     const [imageUrl, setImageUrl] = useState("");
     const [isUploading, setIsUploading] = useState(false);
     const [isFileSelected, setIsFileSelected] = useState(false);
-    const uid = localStorage.getItem("uid");
 
     // Add image to firebase storage
     const handleUpdateAvatar = async (e: { target: { files: any } }) => {

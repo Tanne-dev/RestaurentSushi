@@ -8,11 +8,13 @@ import LogoSpin from "../icon/logospin";
 
 export const AuthContext = createContext<{
     user: any;
+    uid: string | null;
     isAdmin: boolean;
 } | null>(null);
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState({});
+    const [uid, setUid] = useState<string | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +32,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     photoURL,
                 };
                 setUser(userData);
-                localStorage.setItem("uid", uid);
+                setUid(uid);
 
                 try {
                     const userRef = ref(database, `Profiles/${uid}`);
@@ -70,7 +72,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }, [router, redirectUrl]);
 
     return (
-        <AuthContext.Provider value={{ user, isAdmin }}>
+        <AuthContext.Provider value={{ user, isAdmin, uid }}>
             {/* {isLoading ? <LogoSpin /> : children} */} {children}
         </AuthContext.Provider>
     );

@@ -4,7 +4,7 @@ import UsersTab from "@/components/layout/UsersTab/Userstab";
 import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
-import Ellipis from "@/components/icon/ellipsis";
+
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect } from "react";
 
