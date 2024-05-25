@@ -5,11 +5,8 @@ import { getAuth } from "firebase/auth";
 import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
-import Link from "next/link";
 import { message } from "antd";
 import UsersTab from "@/components/layout/UsersTab/Userstab";
-import LogoSpin from "@/components/icon/logospin";
-
 function ProfilePage() {
     const auth = getAuth();
     const [saved, setSaved] = useState(false);
@@ -25,7 +22,8 @@ function ProfilePage() {
     });
 
     // Add data to firebase
-    const uid = localStorage.getItem("uid");
+    const uid =
+        typeof window !== "undefined" ? localStorage.getItem("uid") : null;
     const addData = async (e: { preventDefault: () => void }) => {
         setSaved(false);
         setIsSaving(true);
