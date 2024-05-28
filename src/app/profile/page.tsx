@@ -1,22 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useContext } from "react";
-import { getAuth } from "firebase/auth";
+import React, { useState, useEffect } from "react";
+import useAuth from "@/hook/useAuth";
 import { database } from "../firebase/config";
 import { ref as dbRef, set, onValue, off } from "firebase/database";
 import EditableImage from "@/components/layout/EditableImage/EditableImage";
-import { AuthContext } from "@/components/Context/AuthProvider";
 import { message } from "antd";
 import UsersTab from "@/components/layout/UsersTab/Userstab";
 
 function ProfilePage() {
-    const authContext = useContext(AuthContext);
-
-    if (!authContext) {
-        return null;
-    }
-
-    const { uid, user } = authContext;
+    const { uid, user } = useAuth();
     const [saved, setSaved] = useState(false);
     const [userEmail, setUserEmail] = useState("");
     const [isSaving, setIsSaving] = useState(false);
@@ -52,7 +45,6 @@ function ProfilePage() {
         if (user && user.email) {
             setUserEmail(user.email);
         }
-
         const profileRef = dbRef(database, `Profiles/${uid}/profileUser`);
         const handleValueChange = (snapshot: { val: () => any }) => {
             const data = snapshot.val();
@@ -60,7 +52,6 @@ function ProfilePage() {
                 setProfileUser(data);
             }
         };
-
         onValue(profileRef, handleValueChange);
 
         return () => {

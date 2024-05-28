@@ -1,13 +1,10 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AuthContext } from "@/components/Context/AuthProvider";
-
+import useAuth from "@/hook/useAuth";
 export default function UsersTab() {
     const path = usePathname();
-    const authContext = useContext(AuthContext);
-    const admin = authContext?.isAdmin;
+    const { admin } = useAuth() ?? {};
     function showTabName() {
         const parts = path.split("/");
         return parts[parts.length - 1];

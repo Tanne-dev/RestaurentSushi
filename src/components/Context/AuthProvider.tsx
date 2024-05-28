@@ -12,8 +12,14 @@ export const AuthContext = createContext<{
     isAdmin: boolean;
 } | null>(null);
 
+interface User {
+    displayName: string | null;
+    email: string | null;
+    uid: string;
+    photoURL: string | null;
+}
 export default function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState<User | null>(null);
     const [uid, setUid] = useState<string | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
@@ -61,7 +67,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     setRedirectUrl(null);
                 }
             } else {
-                setUser({});
+                setUser(null);
                 setIsAdmin(false);
                 localStorage.removeItem("uid");
                 setIsLoading(false);
