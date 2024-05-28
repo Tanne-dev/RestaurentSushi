@@ -15,9 +15,10 @@ div.tabs > *.active {
 input[type="email"],
 input[type="password"],
 input[type="text"] {
-    @apply block w-[20rem] my-4 mx-auto rounded-xl;
+    @apply block my-4 mx-auto rounded-xl;
     @apply border p-2 border-white;
 }
+
 ::placeholder {
     @apply px-4;
 }

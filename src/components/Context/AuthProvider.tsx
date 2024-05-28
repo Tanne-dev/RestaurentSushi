@@ -4,14 +4,23 @@ import { useRouter } from "next/navigation";
 import { auth, database } from "@/app/firebase/config";
 import { Spin } from "antd";
 import { ref, get } from "firebase/database";
+import LogoSpin from "../icon/logospin";
 
 export const AuthContext = createContext<{
     user: any;
+    uid: string | null;
     isAdmin: boolean;
 } | null>(null);
 
+interface User {
+    displayName: string | null;
+    email: string | null;
+    uid: string;
+    photoURL: string | null;
+}
 export default function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState({});
+    const [user, setUser] = useState<User | null>(null);
+    const [uid, setUid] = useState<string | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +38,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     photoURL,
                 };
                 setUser(userData);
-                localStorage.setItem("uid", uid);
+                setUid(uid);
 
                 try {
                     const userRef = ref(database, `Profiles/${uid}`);
@@ -58,15 +67,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
                     setRedirectUrl(null);
                 }
             } else {
-                setUser({});
+                setUser(null);
                 setIsAdmin(false);
                 localStorage.removeItem("uid");
-
-                // if (router.pathname !== "/login") {
-                //     setRedirectUrl(router.pathname);
-                //     router.push("/login");
-                // }
-
                 setIsLoading(false);
             }
         });
@@ -75,18 +78,8 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }, [router, redirectUrl]);
 
     return (
-        <AuthContext.Provider value={{ user, isAdmin }}>
-            {isLoading ? (
-                <Spin
-                    style={{
-                        position: "fixed",
-                        inset: 0,
-                        color: "white",
-                    }}
-                />
-            ) : (
-                children
-            )}
+        <AuthContext.Provider value={{ user, isAdmin, uid }}>
+            {/* {isLoading ? <LogoSpin /> : children} */} {children}
         </AuthContext.Provider>
     );
 }

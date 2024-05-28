@@ -1,25 +1,22 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import { ref as dbRef, off, onValue, set } from "firebase/database";
 import { database, storage } from "@/app/firebase/config";
 import { getDownloadURL, uploadBytes, ref as refSto } from "firebase/storage";
 import { Spin, message } from "antd";
+import useAuth from "@/hook/useAuth";
+import LogoSpin from "@/components/icon/logospin";
 export default function EditableImage() {
+    const { uid } = useAuth() ?? {};
     const [uploadAvatar, setUploadAvatar] = useState<any>(null);
-
     const [imageUrl, setImageUrl] = useState("");
     const [isUploading, setIsUploading] = useState(false);
-    const [isFileSelected, setIsFileSelected] = useState(false);
-    const uid = localStorage.getItem("uid");
-
     // Add image to firebase storage
     const handleUpdateAvatar = async (e: { target: { files: any } }) => {
         const files = e.target.files;
         if (files) {
             setIsUploading(true);
             setUploadAvatar(files[0]);
-            setIsFileSelected(true);
             const ImageRef = refSto(storage, `images/${uid}`); // Sử dụng files[0] thay vì uploadAvatar
             uploadBytes(ImageRef, files[0])
                 .then((snapshot) => {
@@ -62,21 +59,13 @@ export default function EditableImage() {
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
                 <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border-[2px]">
                     {isUploading ? (
-                        <Spin
-                            size="large"
-                            style={{
-                                position: "absolute",
-                                top: "50%",
-                                left: "50%",
-                                transform: "translate(-50%, -50%)",
-                            }}
-                        ></Spin>
+                        <LogoSpin></LogoSpin>
                     ) : (
                         <img
                             alt="Avatar"
                             height={400}
                             width={400}
-                            className=" rounded-full max-w-full h-full"
+                            className="rounded-full max-w-full h-full"
                             src={imageUrl}
                         />
                     )}

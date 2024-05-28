@@ -66,6 +66,7 @@ export default function LoginPage() {
                 className=" w-full  flex flex-col items-center"
             >
                 <input
+                    className="w-[20rem]"
                     onKeyDown={() => {
                         setUserLogin("wellcome");
                     }}
@@ -77,6 +78,7 @@ export default function LoginPage() {
                     onChange={(ev) => setEmail(ev.target.value)}
                 />
                 <input
+                    className="w-[20rem]"
                     onKeyDown={() => {
                         setUserLogin("wellcome");
                     }}

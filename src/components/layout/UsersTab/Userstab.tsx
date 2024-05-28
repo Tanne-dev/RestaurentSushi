@@ -1,15 +1,18 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AuthContext } from "@/components/Context/AuthProvider";
-
+import useAuth from "@/hook/useAuth";
 export default function UsersTab() {
     const path = usePathname();
-    const authContext = useContext(AuthContext);
-    const admin = authContext?.isAdmin;
+    const { admin } = useAuth() ?? {};
+    function showTabName() {
+        const parts = path.split("/");
+        return parts[parts.length - 1];
+    }
+    const ActiveName = showTabName();
     return (
         <>
+            <h3 className="text-center capitalize">{ActiveName}</h3>
             <div className="tabs flex gap-2 mt-8 justify-center">
                 <Link
                     className={path === "/profile" ? "active" : ""}
@@ -27,14 +30,7 @@ export default function UsersTab() {
                         >
                             Catergories
                         </Link>
-                        <Link
-                            className={
-                                path.includes("/menu-items") ? "active" : ""
-                            }
-                            href={"/menu-items"}
-                        >
-                            Menu Items
-                        </Link>
+
                         <Link
                             className={path.includes("/users") ? "active" : ""}
                             href={"/users"}
