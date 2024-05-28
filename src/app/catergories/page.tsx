@@ -4,14 +4,14 @@ import UsersTab from "@/components/layout/UsersTab/Userstab";
 import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
-
+import PopupGroup from "@/components/layout/PopupGroup/PopupGroup";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect } from "react";
 
 export default function Catergories() {
     const [showEverythingOpen, setShowEverythingOpen] = useState(false);
     const [menuGroupOpen, setMenuGroupOpen] = useState(false);
-
+    const [openPopup, setOpenPopup] = useState(false);
     const showEverythingRef = useRef<HTMLDivElement>(null);
     const menuGroupRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -115,7 +115,12 @@ export default function Catergories() {
                             <li className="text-black p-3 hover:bg-orange-300 ">
                                 Create New Item Menu
                             </li>
-                            <li className="text-black p-3 hover:bg-orange-300 ">
+                            <li
+                                onClick={() => {
+                                    setOpenPopup(!openPopup);
+                                }}
+                                className="text-black p-3 hover:bg-orange-300 "
+                            >
                                 Create New Item Group
                             </li>
                             <li className="text-black p-3 hover:bg-orange-300">
@@ -151,6 +156,12 @@ export default function Catergories() {
             <div>
                 <CatergoriesItems />
             </div>
+            {/* Popup Group Menu */}
+            {openPopup && (
+                <>
+                    <PopupGroup></PopupGroup>
+                </>
+            )}
         </section>
     );
 }

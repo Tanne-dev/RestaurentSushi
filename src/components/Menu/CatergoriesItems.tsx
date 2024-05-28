@@ -5,7 +5,9 @@ export default function CatergoriesItems() {
             <div className="grid grid-cols-3 p-4 gap-x-4 bg-gray-100">
                 <div className="flex items-start ml-6 gap-4">
                     <span className="text-black text-[1.5rem]">1</span>
-                    <h4 className="text-black text-[1.5rem]">Sushi Futo</h4>
+                    <h4 className="text-black font-medium text-[1.5rem]">
+                        Sushi Futo
+                    </h4>
                 </div>
                 <div className="flex items-center justify-center"></div>
                 <div className="flex items-center justify-end mr-8">

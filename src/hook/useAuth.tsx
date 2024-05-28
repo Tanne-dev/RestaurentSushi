@@ -9,7 +9,8 @@ const useAuth = () => {
     const admin = authContext ? authContext.isAdmin : null;
 
     useEffect(() => {
-        console.log("useAuthUid hook called");
+        // Rerender too many times will fix later here
+        // console.log("useAuthUid hook called");
     }, [uid, user, admin]);
 
     return { uid, user, admin };
