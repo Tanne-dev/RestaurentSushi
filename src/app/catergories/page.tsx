@@ -6,7 +6,7 @@ import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
 import PopupGroup from "@/components/layout/PopupGroup/PopupGroup";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createContext } from "react";
 
 export default function Catergories() {
     const [showEverythingOpen, setShowEverythingOpen] = useState(false);
@@ -80,7 +80,7 @@ export default function Catergories() {
                             </span>
                         </div>
                     </div>
-                    <div className="z-[999]" ref={menuGroupRef}>
+                    <div className="z-[50]" ref={menuGroupRef}>
                         <button
                             onClick={(e) => {
                                 setMenuGroupOpen(!menuGroupOpen);
@@ -108,22 +108,22 @@ export default function Catergories() {
                         </div>
                     </div>
                     <div className="flex flex-col group">
-                        <button className=" relative  border-[2px] rounded-xl flex items-center gap-1 p-2">
+                        <button className=" relative  border-[2px] rounded-xl flex items-center gap-1 p-2 drop-shadow-lg">
                             <Setting></Setting>
                         </button>
-                        <ul className=" group-hover:block  transition-all duration-200 rounded-lg ease-in-out hidden absolute  mt-10 translate-x-[-8rem] mx-auto z-[999px] bg-slate-100">
-                            <li className="text-black p-3 hover:bg-orange-300 ">
+                        <ul className=" group-hover:block  transition-all duration-200 rounded-lg ease-in-out hidden absolute  mt-10 translate-x-[-8rem] mx-auto z-[999] bg-slate-100">
+                            <li className="text-black p-3 hover:bg-orange-300 cursor-pointer ">
                                 Create New Item Menu
                             </li>
                             <li
                                 onClick={() => {
                                     setOpenPopup(!openPopup);
                                 }}
-                                className="text-black p-3 hover:bg-orange-300 "
+                                className="text-black p-3 hover:bg-orange-300 cursor-pointer "
                             >
                                 Create New Item Group
                             </li>
-                            <li className="text-black p-3 hover:bg-orange-300">
+                            <li className="text-black p-3 hover:bg-orange-300 cursor-pointer">
                                 Import Menu From CSV
                             </li>
                         </ul>
@@ -152,14 +152,17 @@ export default function Catergories() {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <CatergoriesItems />
+                <div>
+                    <CatergoriesItems />
+                </div>
             </div>
             {/* Popup Group Menu */}
             {openPopup && (
                 <>
-                    <PopupGroup></PopupGroup>
+                    <PopupGroup
+                        open={openPopup}
+                        setPopup={setOpenPopup}
+                    ></PopupGroup>
                 </>
             )}
         </section>
