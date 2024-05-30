@@ -2,20 +2,21 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { database, auth } from "../firebase/config";
-import { collection } from "firebase/firestore";
+import { auth } from "../firebase/config";
+import { Spin } from "antd";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [stateLogin, setStateLogin] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [userLogin, setUserLogin] = useState("wellcome");
     const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
     const router = useRouter();
 
     const HandleSignInSubmit = async (ev: { preventDefault: () => void }) => {
         ev.preventDefault();
-        setStateLogin(false);
+
         try {
             const res = await signInWithEmailAndPassword(email, password);
 
@@ -25,13 +26,14 @@ export default function LoginPage() {
                     router.push("/");
                 }, 1000);
                 setStateLogin(true);
+                setIsLoading(true);
             } else {
                 setUserLogin("failed");
                 setStateLogin(false);
+                setIsLoading(false);
             }
         } catch (error) {
             setUserLogin("failed");
-            setStateLogin(false);
         }
     };
 
@@ -63,7 +65,7 @@ export default function LoginPage() {
             )}
             <form
                 onSubmit={HandleSignInSubmit}
-                className=" w-full  flex flex-col items-center"
+                className=" w-full flex flex-col items-center"
             >
                 <input
                     className="w-[20rem]"
@@ -89,7 +91,9 @@ export default function LoginPage() {
                     disabled={stateLogin}
                     onChange={(ev) => setPassword(ev.target.value)}
                 />
-                <button type="submit">Login</button>
+                <button className="w-[20rem]" type="submit">
+                    {isLoading ? <Spin /> : "Button"}
+                </button>
             </form>
         </section>
     );

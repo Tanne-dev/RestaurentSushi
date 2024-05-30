@@ -37,7 +37,7 @@ function ProfilePage() {
         } catch (error) {
             setIsSaving(false);
             alert("Unsuccessful");
-            console.error(error);
+            message.error("Save Error");
         }
     };
 
@@ -103,7 +103,7 @@ function ProfilePage() {
                         className="w-[20rem]"
                         value={profileUser.phone}
                         type="text"
-                        name="Number"
+                        name="number"
                         placeholder="Phone Number"
                         onChange={(e) =>
                             setProfileUser({

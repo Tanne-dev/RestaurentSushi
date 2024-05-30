@@ -9,7 +9,7 @@ export default function CatergoriesItems() {
                     </div>
                     <div className=" flex flex-col items-start ml-6 gap-2">
                         <span className="text-black">Item</span>
-                        <span className="text-black">Sushi Futo</span>
+                        <span className="text-black font-bold">Sushi Futo</span>
                     </div>
                 </div>
                 <div className="grid-cols-2"></div>
