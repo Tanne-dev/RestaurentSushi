@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 
 export default function CatergoriesItems() {
     const [groupName, setGroupName] = useState<Record<string, string>>({});
-
     useEffect(() => {
         const GroupNameRef = dbRef(database, "GroupList/");
         const handleValueChange = (snapshot: { val: () => any }) => {
@@ -14,7 +13,7 @@ export default function CatergoriesItems() {
                 setGroupName(data);
             } else {
                 setGroupName({});
-                console.log("Khong co du lieu");
+                console.log("Không có dữ liệu");
             }
         };
 
@@ -24,14 +23,14 @@ export default function CatergoriesItems() {
             off(GroupNameRef, "value", handleValueChange);
         };
     }, []);
-    console.log(groupName);
+
     return (
         <>
             <ul className="flex flex-col list-none z-[100]">
-                {Object.keys(groupName).map((key, index) => (
+                {Object.keys(groupName).map((key) => (
                     <li key={key} className="px-2">
-                        <li className="flex justify-between items-center hover:bg-slate-300 duration-200 transition-background ease-in-out p-4 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
-                            <div className=" flex gap-4 ml-4">
+                        <div className="flex justify-between items-center hover:bg-slate-300 duration-200 transition-background ease-in-out p-4 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
+                            <div className="flex gap-4 ml-4">
                                 <span className="text-black text-[1.5rem] ">
                                     {key}
                                 </span>
@@ -39,14 +38,14 @@ export default function CatergoriesItems() {
                                     {groupName[key]}
                                 </h4>
                             </div>
-                            <div className=" mr-8">
+                            <div className="mr-8">
                                 <div className="cursor-pointer hover:border-[0.5px] border-gray-700 rounded-md">
                                     <Ellipis />
                                 </div>
                             </div>
-                        </li>
+                        </div>
                         {/* Menu Items */}
-                        <li className="border-[1px] border-gray-300 p-2 rounded-lg">
+                        <div className="border-[1px] border-gray-300 p-2 rounded-lg">
                             <div className="grid grid-cols-3 grid-rows-1 gap-x-4 ">
                                 <div className="grid-cols-1 flex items-center ml-4">
                                     <div className="w-[55px] h-[55px] flex justify-center items-center relative">
@@ -56,7 +55,7 @@ export default function CatergoriesItems() {
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
-                                    <div className=" flex flex-col items-start ml-6 gap-2">
+                                    <div className="flex flex-col items-start ml-6 gap-2">
                                         <span className="text-black">
                                             Sten Lax Posse 14 Bitar
                                         </span>
@@ -76,7 +75,7 @@ export default function CatergoriesItems() {
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </div>
                     </li>
                 ))}
             </ul>

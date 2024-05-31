@@ -58,7 +58,7 @@ export default function EditableImage() {
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
                 <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border-[2px]">
                     {isLoadingImage ? (
-                        <Spin indicator={LogoSpin} />
+                        <LogoSpin />
                     ) : (
                         <img
                             alt="Avatar"
