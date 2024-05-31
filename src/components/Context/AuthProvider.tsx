@@ -79,7 +79,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
     return (
         <AuthContext.Provider value={{ user, isAdmin, uid }}>
-            {/* {isLoading ? <LogoSpin /> : children} */} {children}
+            {isLoading ? <LogoSpin /> : children}
         </AuthContext.Provider>
     );
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import useAuth from "@/hook/useAuth";
 import { database } from "../firebase/config";
@@ -72,6 +71,7 @@ function ProfilePage() {
                 </h4>
             )}
             <UsersTab />
+
             <form
                 className="flex justify-center mx-auto mt-5 w-full"
                 onSubmit={addData}
@@ -171,7 +171,6 @@ function ProfilePage() {
                     </div>
                 </div>
             </form>
-            <div></div>
         </div>
     );
 }

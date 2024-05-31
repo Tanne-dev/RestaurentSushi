@@ -132,7 +132,7 @@ export default function Catergories() {
             </div>
 
             {/*  */}
-            <div className="bg-white p-2 border-b-[1px] hover:drop-shadow-lg   border-t-gray-400">
+            <div className="bg-gray-200 p-2 border-b-[1px] hover:drop-shadow-lg rounded-lg  border-t-gray-400">
                 <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
                     <div className="grid-cols-1 flex ">
                         <div className="flex flex-col just items-start ml-6 gap-2">
