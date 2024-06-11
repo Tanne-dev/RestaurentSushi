@@ -3,7 +3,6 @@ import { message } from "antd";
 import { useState } from "react";
 import { ref as dbRef, set, get } from "firebase/database";
 import { database } from "@/app/firebase/config";
-import { list } from "firebase/storage";
 interface PopupGroupProps {
     open: boolean;
     setPopup: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,9 +34,7 @@ const PopupGroup: React.FC<PopupGroupProps> = ({ open, setPopup }) => {
             const newGroup = {
                 [newKey]: listName,
             };
-            console.log({ newGroup });
             await set(dbRef(database, `GroupList/${newKey}`), listName);
-
             message.success("Group Menu Added Successful");
         } catch (error) {
             alert("Unsuccessful");

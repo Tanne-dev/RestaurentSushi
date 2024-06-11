@@ -5,6 +5,7 @@ import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
 import PopupGroup from "@/components/layout/PopupGroup/PopupGroup";
+import AddProduct from "@/components/layout/PopupProduct/AddProduct";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect, createContext } from "react";
 
@@ -12,6 +13,7 @@ export default function Catergories() {
     const [showEverythingOpen, setShowEverythingOpen] = useState(false);
     const [menuGroupOpen, setMenuGroupOpen] = useState(false);
     const [openPopup, setOpenPopup] = useState(false);
+    const [createItem, setCreateItem] = useState(false);
     const showEverythingRef = useRef<HTMLDivElement>(null);
     const menuGroupRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -31,6 +33,9 @@ export default function Catergories() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    const handleClickCreateMenu = () => {
+        setCreateItem(!createItem);
+    };
 
     return (
         <section className="duration-200 ease-in-out transition-all ">
@@ -112,7 +117,10 @@ export default function Catergories() {
                             <Setting></Setting>
                         </button>
                         <ul className=" group-hover:block  transition-all duration-200 rounded-lg ease-in-out hidden absolute  mt-10 translate-x-[-8rem] mx-auto z-[999] bg-slate-100">
-                            <li className="text-black p-3 hover:bg-orange-300 cursor-pointer ">
+                            <li
+                                onClick={handleClickCreateMenu}
+                                className="text-black p-3 hover:bg-orange-300 cursor-pointer "
+                            >
                                 Create New Item Menu
                             </li>
                             <li
@@ -163,6 +171,14 @@ export default function Catergories() {
                         open={openPopup}
                         setPopup={setOpenPopup}
                     ></PopupGroup>
+                </>
+            )}
+            {createItem && (
+                <>
+                    <AddProduct
+                        open={createItem}
+                        setPopup={setCreateItem}
+                    ></AddProduct>
                 </>
             )}
         </section>
