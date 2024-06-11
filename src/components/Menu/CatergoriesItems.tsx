@@ -4,11 +4,12 @@ import { message } from "antd";
 import { ref as dbRef, off, onValue, remove } from "firebase/database";
 import { useState, useEffect } from "react";
 import Items from "./items";
+interface visibleOption {
+    [key: number]: boolean;
+}
 export default function CatergoriesItems() {
     const [groupName, setGroupName] = useState<Record<string, string>>({});
-    const [visibleOption, setVisibleOption] = useState<Record<string, boolean>>(
-        {}
-    );
+    const [visibleOption, setVisibleOption] = useState<visibleOption>({});
 
     useEffect(() => {
         const GroupNameRef = dbRef(database, "GroupList/");
@@ -29,7 +30,7 @@ export default function CatergoriesItems() {
         };
     }, []);
 
-    const handleOptionGroup = (index: string) => {
+    const handleOptionGroup = (index: number) => {
         setVisibleOption((prevState) => ({
             ...prevState,
             [index]: !prevState[index],
@@ -67,7 +68,7 @@ export default function CatergoriesItems() {
                                 >
                                     <div>
                                         <ul
-                                            className={`flex over gap-2  transition-all duration-400 rounded-lg ease-in-out ${
+                                            className={`flex gap-2  transition-all duration-400 rounded-lg ease-in-out ${
                                                 visibleOption[index]
                                                     ? "opacity-100 translate-x-0"
                                                     : " opacity-0 translate-x-[100%] "
