@@ -85,13 +85,36 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                         </div>
                         <div className="mb-4">
                             <label className="block font-medium mb-1">
+                                Group Menu{" "}
+                                <span className="text-red-500">*</span>
+                            </label>
+                            <select
+                                id="fruit"
+                                className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-300 focus:border-orange-300 sm:text-sm p-2"
+                            >
+                                <option value="" disabled selected>
+                                    Choose Group Menu
+                                </option>
+                                <option value="apple" className="p-2">
+                                    Ura Maki
+                                </option>
+                                <option value="banana" className="p-2">
+                                    Futo Maki
+                                </option>
+                                <option value="orange" className="p-2">
+                                    Salad
+                                </option>
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block font-medium mb-1">
                                 Title <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 name="title"
                                 value={dataProduct.title}
-                                className="w-full px-3 py-2 border-2 border-gray-400 rounded-md"
+                                className="w-full px-3 py-2 border-2 focus:outline-none focus:ring-orange-300 focus:border-orange-300 border-gray-400 rounded-md"
                                 placeholder="Item title..."
                                 onChange={handleInputChange}
                             />
@@ -104,7 +127,7 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                             <textarea
                                 name="description"
                                 value={dataProduct.description}
-                                className="w-full px-3 py-2 border-2 border-gray-400 rounded-md"
+                                className="w-full px-3 py-2 border-2 focus:outline-none focus:ring-orange-300 focus:border-orange-300 border-gray-400 rounded-md"
                                 placeholder="Item description..."
                                 onChange={handleInputChange}
                             ></textarea>
@@ -113,21 +136,21 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                         <div className="flex justify-between">
                             <button
                                 onClick={prevStep}
-                                className="px-4 py-2 font-medium bg-gray-300 rounded-md"
+                                className="px-4  font-medium bg-gray-300 rounded-md"
                                 disabled={step === 1}
                             >
                                 Previous
                             </button>
                             <button
                                 onClick={nextStep}
-                                className="px-4 py-2 font-medium bg-green-300 rounded-md"
+                                className="px-4  font-medium bg-green-300 rounded-md"
                                 disabled={step === 3}
                             >
                                 Next
                             </button>
                             <button
                                 onClick={() => setPopup(!open)}
-                                className="px-4 py-2 font-medium bg-red-300 rounded-md"
+                                className="px-4  font-medium bg-red-300 rounded-md"
                             >
                                 Close
                             </button>
@@ -137,8 +160,8 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                         <h3 className="text-xl text-gray-700 font-semibold mb-4">
                             Product preview
                         </h3>
-                        <div className="flex-1 w-full flex border-gray-400 drop-shadow-xl h-52 rounded-xl mb-4">
-                            <div className="p-1 bg-white w-full h-full border-2">
+                        <div className="flex border-gray-400 drop-shadow-xl rounded-xl mb-4">
+                            <div className="p-1 bg-white w-full h-40 border-2">
                                 {dataProduct.urlphoto ? (
                                     <img
                                         alt="Product Preview"
@@ -153,13 +176,13 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                             </div>
                         </div>
                         <div className="flex-1 p-4 bg-white rounded-lg shadow-md">
-                            <h4 className="text-2xl  text-orange-500 font-medium mb-2">
+                            <h4 className="text-[1.2rem]  text-orange-500 font-medium mb-2">
                                 Title
                             </h4>
-                            <span className="text-2xl line-clamp-1 text-black block mb-4">
+                            <span className="text-[1.2rem] line-clamp-1 text-black block mb-4">
                                 {dataProduct.title || "No title provided"}
                             </span>
-                            <p className="text-2xl text-orange-500 font-medium mb-2">
+                            <p className="text-[1.2rem] text-orange-500 font-medium mb-2">
                                 Description
                             </p>
                             <span className="text-[1rem] line-clamp-4  text-black break-words block mb-4">
