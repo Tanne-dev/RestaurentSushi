@@ -18,9 +18,10 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
     const nextStep = () => setStep(step + 1);
     const prevStep = () => setStep(step - 1);
 
-    const handleUploadImage = (e: { target: { files: FileList } }) => {
-        const file = e.target.files[0];
-        if (file) {
+    const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const fileList = e.target.files;
+        if (fileList) {
+            const file = fileList[0];
             const imageURL = URL.createObjectURL(file);
             setDataProduct((prevState) => ({
                 ...prevState,
@@ -97,7 +98,7 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                         </div>
                         <div className="mb-4">
                             <label className="block font-medium mb-1">
-                                Description{" "}
+                                Description
                                 <span className="text-red-500">*</span>
                             </label>
                             <textarea
