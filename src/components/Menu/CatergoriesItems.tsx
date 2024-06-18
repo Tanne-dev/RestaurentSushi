@@ -1,118 +1,115 @@
-import { database } from "@/app/firebase/config";
-import Ellipis from "@/components/icon/ellipsis";
+"use client";
 import { message } from "antd";
-import { ref as dbRef, off, onValue, remove } from "firebase/database";
 import { useState, useEffect } from "react";
+import { ref as dbRef, remove } from "firebase/database";
+import dbFireStore, { database } from "@/app/firebase/config";
+import Ellipsis from "@/components/icon/ellipsis";
 import Items from "./items";
-interface visibleOption {
+import { collection, onSnapshot } from "firebase/firestore";
+import { fetchCategories, deleteCategory } from "@/api/catergoriesService";
+interface CategoriesItemsProps {}
+interface VisibleOption {
     [key: number]: boolean;
 }
-export default function CatergoriesItems() {
-    const [groupName, setGroupName] = useState<Record<string, string>>({});
-    const [visibleOption, setVisibleOption] = useState<visibleOption>({});
+
+const CategoriesItems: React.FC<CategoriesItemsProps> = () => {
+    const [getCategories, setGetCategories] = useState<any[]>([]);
+    const [visibleOption, setVisibleOption] = useState<VisibleOption>({});
 
     useEffect(() => {
-        const GroupNameRef = dbRef(database, "GroupList/");
-        const handleValueChange = (snapshot: { val: () => any }) => {
-            const data = snapshot.val();
-            if (data) {
-                setGroupName(data);
-            } else {
-                setGroupName({});
-                console.log("Không có dữ liệu");
-            }
+        const fetch = async () => {
+            const unsubcrise = await fetchCategories(setGetCategories);
+            return () => {
+                if (unsubcrise) {
+                    unsubcrise();
+                }
+            };
         };
-
-        onValue(GroupNameRef, handleValueChange);
-
-        return () => {
-            off(GroupNameRef, "value", handleValueChange);
-        };
+        fetch();
     }, []);
-
     const handleOptionGroup = (index: number) => {
         setVisibleOption((prevState) => ({
             ...prevState,
             [index]: !prevState[index],
         }));
     };
-    const HandleDeteleDataItems = (key: string) => {
-        const dataRef = dbRef(database, `GroupList/${key}`);
-        remove(dataRef)
-            .then(() => {
-                message.success("Data deleted");
-            })
-            .catch((error) => {
-                message.error("Error deleting data:", error);
-            });
-    };
-    return (
-        <>
-            <ul className="flex flex-col ">
-                {Object.keys(groupName).map((key, index: number) => (
-                    <li key={key} className="px-2">
-                        <div className="relative hover:bg-slate-300 p-4 z-0 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
-                            <div className=" flex justify-between items-center gap-4 ml-4">
-                                <div className="flex ">
-                                    <span className="text-black text-[1.5rem]">
-                                        {key}
-                                    </span>
-                                    <h4 className="text-black font-medium text-[1.5rem] ml-2">
-                                        {groupName[key]}
-                                    </h4>
-                                </div>
-                                {/*  */}
-                                <div
-                                    key={key}
-                                    className="overflow-hidden flex items-center gap-3 "
-                                >
-                                    <div>
-                                        <ul
-                                            className={`flex gap-2  transition-all duration-400 rounded-lg ease-in-out ${
-                                                visibleOption[index]
-                                                    ? "opacity-100 translate-x-0"
-                                                    : " opacity-0 translate-x-[100%] "
-                                            }`}
-                                        >
-                                            <li>
-                                                <button className="text-gray-800 font-medium">
-                                                    Start to Selling All items
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button className="text-gray-800 font-medium">
-                                                    Edit Menu Group
-                                                </button>
-                                            </li>
-                                            <li>
-                                                <button
-                                                    onClick={() =>
-                                                        HandleDeteleDataItems(
-                                                            key
-                                                        )
-                                                    }
-                                                    className="text-red-700 font-medium"
-                                                >
-                                                    Delete Menu Group
-                                                </button>
-                                            </li>
-                                        </ul>
-                                    </div>
 
-                                    <button
-                                        onClick={() => handleOptionGroup(index)}
-                                        className="relative border-[2px] rounded-xl flex items-center gap-1 p-2  z-20"
-                                    >
-                                        <Ellipis />
-                                    </button>
-                                </div>
+    const handleDeleteCatergories = async (id: string, name: string) => {
+        try {
+            const catergories = getCategories.find(
+                (cat) => cat.id === id && cat.name === name
+            );
+            if (!catergories) {
+                throw new Error("Catergory not found the name");
+            }
+            await deleteCategory(id, name);
+            message.success(`🎉🎉🎉 ${name} deleted 🎉🎉🎉`);
+        } catch (error) {
+            message.error("Error deleting data Ooops.");
+        }
+    };
+
+    return (
+        <ul className="flex flex-col">
+            {getCategories.map((item, index: number) => (
+                <li className="px-2" key={item.id}>
+                    <div className="relative hover:bg-slate-300 p-4 z-0 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
+                        <div className="flex justify-between items-center gap-4 ml-4">
+                            <div className="flex items-center">
+                                <span className="text-black text-[1.2rem]">
+                                    {index + 1}
+                                </span>
+                                <h4 className="text-black font-medium text-[1.5rem] ml-2">
+                                    {item.name}
+                                </h4>
+                            </div>
+                            <div className="overflow-hidden flex items-center gap-3">
+                                <ul
+                                    className={`flex gap-2 transition-all duration-400 rounded-lg ease-in-out ${
+                                        visibleOption[index]
+                                            ? "opacity-100 translate-x-0"
+                                            : "opacity-0 translate-x-[100%]"
+                                    }`}
+                                >
+                                    <li>
+                                        <button className="text-gray-800 font-medium">
+                                            Start to Selling All items
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="text-gray-800 font-medium">
+                                            Edit Menu Group
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button
+                                            onClick={() =>
+                                                handleDeleteCatergories(
+                                                    item.id,
+                                                    item.name
+                                                )
+                                            }
+                                            className="text-red-700 font-medium"
+                                        >
+                                            Delete Menu Group
+                                        </button>
+                                    </li>
+                                </ul>
+
+                                <button
+                                    onClick={() => handleOptionGroup(index)}
+                                    className="relative border-[2px] rounded-xl flex items-center gap-1 p-2 z-20"
+                                >
+                                    <Ellipsis />
+                                </button>
                             </div>
                         </div>
-                        <Items groupKey={key} />
-                        {/* Menu Items */}
-                    </li>
-                ))}
-            </ul>
-        </>
+                    </div>
+                    <Items groupKey={item.id} />
+                </li>
+            ))}
+        </ul>
     );
-}
+};
+
+export default CategoriesItems;

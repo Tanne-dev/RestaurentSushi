@@ -4,7 +4,7 @@ import UsersTab from "@/components/layout/UsersTab/Userstab";
 import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
-import PopupGroup from "@/components/layout/PopupGroup/PopupGroup";
+import AddCatergory from "@/components/layout/AddCatergory/AddCatergory";
 import AddProduct from "@/components/layout/PopupProduct/AddProduct";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect, createContext } from "react";
@@ -167,10 +167,10 @@ export default function Catergories() {
             {/* Popup Group Menu */}
             {openPopup && (
                 <>
-                    <PopupGroup
+                    <AddCatergory
                         open={openPopup}
                         setPopup={setOpenPopup}
-                    ></PopupGroup>
+                    ></AddCatergory>
                 </>
             )}
             {createItem && (
