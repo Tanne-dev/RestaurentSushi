@@ -1,12 +1,13 @@
 "use client";
 import { message } from "antd";
 import { useState, useEffect } from "react";
+
 import { ref as dbRef, remove } from "firebase/database";
-import dbFireStore, { database } from "@/app/firebase/config";
+import dbFireStore from "@/app/firebase/config";
 import Ellipsis from "@/components/icon/ellipsis";
-import Items from "./items";
+import Product from "./Product";
 import { collection, onSnapshot } from "firebase/firestore";
-import { fetchCategories, deleteCategory } from "@/api/catergoriesService";
+import { deleteCategory } from "@/api/catergoriesService";
 interface CategoriesItemsProps {}
 interface VisibleOption {
     [key: number]: boolean;
@@ -15,18 +16,28 @@ interface VisibleOption {
 const CategoriesItems: React.FC<CategoriesItemsProps> = () => {
     const [getCategories, setGetCategories] = useState<any[]>([]);
     const [visibleOption, setVisibleOption] = useState<VisibleOption>({});
-
-    useEffect(() => {
-        const fetch = async () => {
-            const unsubcrise = await fetchCategories(setGetCategories);
-            return () => {
-                if (unsubcrise) {
-                    unsubcrise();
+    const fetchCategories = async (setGetCategories: any) => {
+        try {
+            const unsub = onSnapshot(
+                collection(dbFireStore, "catergories"), // Đảm bảo tên collection là 'categories'
+                (snapshot) => {
+                    const docs: any = [];
+                    snapshot.forEach((doc: any) => {
+                        docs.push({ ...doc.data(), id: doc.id });
+                    });
+                    setGetCategories(docs);
                 }
-            };
-        };
-        fetch();
+            );
+            return unsub;
+        } catch (error) {
+            console.error(error);
+            setGetCategories([]);
+        }
+    };
+    useEffect(() => {
+        fetchCategories(setGetCategories);
     }, []);
+
     const handleOptionGroup = (index: number) => {
         setVisibleOption((prevState) => ({
             ...prevState,
@@ -105,7 +116,7 @@ const CategoriesItems: React.FC<CategoriesItemsProps> = () => {
                             </div>
                         </div>
                     </div>
-                    <Items groupKey={item.id} />
+                    <Product groupKey={item.id} catergory={item.name} />
                 </li>
             ))}
         </ul>

@@ -5,7 +5,7 @@ import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
 import AddCatergory from "@/components/layout/AddCatergory/AddCatergory";
-import AddProduct from "@/components/layout/PopupProduct/AddProduct";
+import AddProduct from "@/components/layout/Product/AddProduct";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect, createContext } from "react";
 
@@ -121,7 +121,7 @@ export default function Catergories() {
                                 onClick={handleClickCreateMenu}
                                 className="text-black p-3 hover:bg-orange-300 cursor-pointer "
                             >
-                                Create New Item Menu
+                                Create New Product
                             </li>
                             <li
                                 onClick={() => {
@@ -129,7 +129,7 @@ export default function Catergories() {
                                 }}
                                 className="text-black p-3 hover:bg-orange-300 cursor-pointer "
                             >
-                                Create New Item Group
+                                Create New Catergory
                             </li>
                             <li className="text-black p-3 hover:bg-orange-300 cursor-pointer">
                                 Import Menu From CSV

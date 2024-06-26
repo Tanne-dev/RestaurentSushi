@@ -16,7 +16,7 @@ export default function EditableImage() {
         const files = e.target.files;
         if (files) {
             setUploadAvatar(files[0]);
-            const ImageRef = refSto(storage, `images/${uid}`); // Sử dụng files[0] thay vì uploadAvatar
+            const ImageRef = refSto(storage, `MemberImg/${uid}`); // Sử dụng files[0] thay vì uploadAvatar
             uploadBytes(ImageRef, files[0])
                 .then((snapshot) => {
                     getDownloadURL(snapshot.ref).then((url) => {
