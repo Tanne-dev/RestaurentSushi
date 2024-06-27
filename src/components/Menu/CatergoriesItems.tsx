@@ -64,7 +64,7 @@ const CategoriesItems: React.FC<CategoriesItemsProps> = () => {
         <ul className="flex flex-col">
             {getCategories.map((item, index: number) => (
                 <li className="px-2" key={item.id}>
-                    <div className="relative hover:bg-slate-300 p-4 z-0 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
+                    <div className="relative hover:bg-slate-300  duration-200 transition-all  p-4 z-0 bg-gray-100 my-4 drop-shadow-lg rounded-lg">
                         <div className="flex justify-between items-center gap-4 ml-4">
                             <div className="flex items-center">
                                 <span className="text-black text-[1.2rem]">

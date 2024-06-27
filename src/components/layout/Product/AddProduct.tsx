@@ -1,15 +1,19 @@
 "use client";
-import Catergories from "@/app/catergories/page";
-import dbFireStore from "@/app/firebase/config";
+
+import dbFireStore, { storage } from "@/app/firebase/config";
 import { message } from "antd";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { getDownloadURL, uploadBytes, ref as refSto } from "firebase/storage";
+import { timeStamp } from "console";
 
 interface AddProductProp {
     open: boolean;
     setPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
+const getCurrentTimestamp = () => {
+    return new Date().toISOString();
+};
 const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
     const [dataProduct, setDataProduct] = useState({
         categories: "",
@@ -17,10 +21,12 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
         title: "",
         description: "",
         price: 0,
+        timestamp: getCurrentTimestamp(),
     });
+
     const [originalPrice, setOriginalPrice] = useState("");
     const [vat, setVat] = useState("");
-
+    const [prodoctID, setProductID] = useState("");
     const [categories, setCategories] = useState<any[]>([]);
 
     const fetchCategories = async () => {
@@ -50,7 +56,8 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
         urlphoto: string,
         title: string,
         description: string,
-        price: number
+        price: number,
+        timeStamp: string
     ) => {
         try {
             await addDoc(collection(dbFireStore, "Product"), {
@@ -60,7 +67,7 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
                 description,
                 price,
             });
-            message.success(`Product ${title} added successfully`);
+            message.success(`Product ${title}  added successfully`);
         } catch (error) {
             message.error(`Failed to add product ${title}`);
         }
@@ -69,13 +76,16 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
     const handleAddProduct = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (dataProduct.title && dataProduct.categories) {
-            await addProduct(
+            const productID = await addProduct(
                 dataProduct.categories,
                 dataProduct.urlphoto,
                 dataProduct.title,
                 dataProduct.description,
-                dataProduct.price
+                dataProduct.price,
+                dataProduct.timestamp
             );
+            console.log("Product ID:", productID);
+
             setPopup(false);
         } else {
             message.error("Please fill in all required fields");
@@ -105,13 +115,24 @@ const AddProduct: React.FC<AddProductProp> = ({ open, setPopup }) => {
 
     const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         const fileList = e.target.files;
+
         if (fileList) {
             const file = fileList[0];
-            const imageURL = URL.createObjectURL(file);
-            setDataProduct((prevState) => ({
-                ...prevState,
-                urlphoto: imageURL,
-            }));
+            const ImageRef = refSto(storage, `ProductImage/${file.name}`); // Adjust this line as per your import and usage context
+
+            uploadBytes(ImageRef, file)
+                .then((snapshot) => {
+                    return getDownloadURL(snapshot.ref);
+                })
+                .then((url) => {
+                    setDataProduct((prevState) => ({
+                        ...prevState,
+                        urlphoto: url,
+                    }));
+                })
+                .catch((error) => {
+                    console.error("Error uploading image: ", error);
+                });
         }
     };
 

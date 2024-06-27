@@ -42,11 +42,20 @@ const Product: React.FC<ItemsProps> = ({ groupKey, catergory }) => {
             [key]: !prevState[key],
         }));
     };
-
+    useEffect(() => {
+        if (products.length > 0) {
+            console.log("Products loaded", products);
+        } else {
+            console.log("Waiting for products to load...");
+        }
+    }, [products]);
     return (
         <div className="border-[1px] border-gray-300 p-2 rounded-lg">
             {products.map((product, key) => (
-                <div key={key} className="grid grid-cols-3 grid-rows-1 gap-x-4">
+                <div
+                    key={key}
+                    className="grid grid-cols-3 grid-rows-1 mt-4 gap-x-4"
+                >
                     <div className="grid-cols-1 flex items-center ml-4">
                         <div className="w-[55px] h-[55px] flex justify-center items-center relative">
                             <img
@@ -74,12 +83,16 @@ const Product: React.FC<ItemsProps> = ({ groupKey, catergory }) => {
                                 {buttonStates[groupKey] ? (
                                     <>
                                         <div className="h-4 min-w-[16px] rounded-full flex justify-center items-center text-white bg-[#69ff84] px-1 border-2 border-white"></div>
-                                        <span className="text-black">Yes</span>
+                                        <span className="text-black select-none">
+                                            Yes
+                                        </span>
                                     </>
                                 ) : (
                                     <>
                                         <div className="h-4 min-w-[16px] rounded-full flex justify-center items-center text-white bg-[#f68f8f] px-1 border-2 border-white"></div>
-                                        <span className="text-black">No</span>
+                                        <span className="text-black select-none">
+                                            No
+                                        </span>
                                     </>
                                 )}
                             </div>
