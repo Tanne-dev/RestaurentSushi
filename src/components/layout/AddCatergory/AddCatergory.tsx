@@ -1,47 +1,32 @@
 "use client";
 import { message } from "antd";
-import { useState } from "react";
-import { ref as dbRef, set, get } from "firebase/database";
-import { database } from "@/app/firebase/config";
-import { list } from "firebase/storage";
+import React, { useState } from "react";
+import dbFireStore from "@/app/firebase/config";
+import { collection, addDoc } from "firebase/firestore";
 interface PopupGroupProps {
     open: boolean;
     setPopup: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const PopupGroup: React.FC<PopupGroupProps> = ({ open, setPopup }) => {
+const AddCatergory: React.FC<PopupGroupProps> = ({ open, setPopup }) => {
     const [listName, setListName] = useState<string>("");
-
-    const addGroupMenu = async (e: { preventDefault: () => void }) => {
-        e.preventDefault();
-        setPopup(false);
+    const addCatergories = async (name: string) => {
         try {
-            // Lấy danh sách nhóm từ cơ sở dữ liệu
-            const groupListRef = dbRef(database, "GroupList/");
-            const groupListSnapshot = await get(groupListRef);
-            let newKey;
-
-            // Kiểm tra xem snapshot có dữ liệu hay không
-            if (groupListSnapshot.exists()) {
-                // Lấy danh sách nhóm hiện có
-                const existingGroupList = groupListSnapshot.val();
-                const currentLenght = Object.keys(existingGroupList).length;
-                newKey = currentLenght + 1;
-
-                // Thêm mục mới vào danh sách nhóm
-            } else {
-                // Nếu danh sách nhóm chưa tồn tại, tạo mới và thêm mục vào
-                newKey = 1;
-            }
-            const newGroup = {
-                [newKey]: listName,
-            };
-            console.log({ newGroup });
-            await set(dbRef(database, `GroupList/${newKey}`), listName);
-
-            message.success("Group Menu Added Successful");
+            await addDoc(collection(dbFireStore, "catergories"), { name });
+            message.success(`Catergories ${name} Added Success`);
         } catch (error) {
-            alert("Unsuccessful");
-            message.error("Add Error");
+            message.error(`${name} Failed`);
+        }
+    };
+    const handleAddCatergories = async (
+        e: React.FormEvent<HTMLFormElement>
+    ) => {
+        e.preventDefault();
+        if (listName.trim() !== "") {
+            await addCatergories(listName);
+            setListName("");
+            setPopup(false);
+        } else {
+            message.error("Catergory name cannot be empty");
         }
     };
 
@@ -52,7 +37,7 @@ const PopupGroup: React.FC<PopupGroupProps> = ({ open, setPopup }) => {
                     <h3 className="text-black font-semibold">
                         Create menu group
                     </h3>
-                    <form onSubmit={addGroupMenu}>
+                    <form onSubmit={handleAddCatergories}>
                         <div>
                             <span className="font-normal">Menu group name</span>
                         </div>
@@ -86,4 +71,4 @@ const PopupGroup: React.FC<PopupGroupProps> = ({ open, setPopup }) => {
         </>
     );
 };
-export default PopupGroup;
+export default AddCatergory;

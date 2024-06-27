@@ -92,7 +92,7 @@ export default function LoginPage() {
                     onChange={(ev) => setPassword(ev.target.value)}
                 />
                 <button className="w-[20rem]" type="submit">
-                    {isLoading ? <Spin /> : "Button"}
+                    {isLoading ? <Spin /> : "Login"}
                 </button>
             </form>
         </section>

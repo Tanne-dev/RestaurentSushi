@@ -4,7 +4,8 @@ import UsersTab from "@/components/layout/UsersTab/Userstab";
 import ChevronUp from "@/components/icon/chevronUp";
 import ChevronDown from "@/components/icon/chevronDown";
 import Setting from "@/components/icon/setting";
-import PopupGroup from "@/components/layout/PopupGroup/PopupGroup";
+import AddCatergory from "@/components/layout/AddCatergory/AddCatergory";
+import AddProduct from "@/components/layout/Product/AddProduct";
 import CatergoriesItems from "@/components/Menu/CatergoriesItems";
 import { useState, useRef, useEffect, createContext } from "react";
 
@@ -12,6 +13,7 @@ export default function Catergories() {
     const [showEverythingOpen, setShowEverythingOpen] = useState(false);
     const [menuGroupOpen, setMenuGroupOpen] = useState(false);
     const [openPopup, setOpenPopup] = useState(false);
+    const [createItem, setCreateItem] = useState(false);
     const showEverythingRef = useRef<HTMLDivElement>(null);
     const menuGroupRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -31,6 +33,9 @@ export default function Catergories() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+    const handleClickCreateMenu = () => {
+        setCreateItem(!createItem);
+    };
 
     return (
         <section className="duration-200 ease-in-out transition-all ">
@@ -112,8 +117,11 @@ export default function Catergories() {
                             <Setting></Setting>
                         </button>
                         <ul className=" group-hover:block  transition-all duration-200 rounded-lg ease-in-out hidden absolute  mt-10 translate-x-[-8rem] mx-auto z-[999] bg-slate-100">
-                            <li className="text-black p-3 hover:bg-orange-300 cursor-pointer ">
-                                Create New Item Menu
+                            <li
+                                onClick={handleClickCreateMenu}
+                                className="text-black p-3 hover:bg-orange-300 cursor-pointer "
+                            >
+                                Create New Product
                             </li>
                             <li
                                 onClick={() => {
@@ -121,7 +129,7 @@ export default function Catergories() {
                                 }}
                                 className="text-black p-3 hover:bg-orange-300 cursor-pointer "
                             >
-                                Create New Item Group
+                                Create New Catergory
                             </li>
                             <li className="text-black p-3 hover:bg-orange-300 cursor-pointer">
                                 Import Menu From CSV
@@ -132,9 +140,9 @@ export default function Catergories() {
             </div>
 
             {/*  */}
-            <div className="bg-white p-2 border-b-[1px] hover:drop-shadow-lg   border-t-gray-400">
+            <div className="bg-gray-200 p-2 border-b-[1px] hover:drop-shadow-lg rounded-lg  border-t-gray-400">
                 <div className="grid grid-cols-3 grid-rows-1 gap-x-4">
-                    <div className="grid-cols-1 flex ">
+                    <div className="grid-cols-1 flex ml-4 ">
                         <div className="flex flex-col just items-start ml-6 gap-2">
                             <span className="text-black">#</span>
                         </div>
@@ -159,10 +167,18 @@ export default function Catergories() {
             {/* Popup Group Menu */}
             {openPopup && (
                 <>
-                    <PopupGroup
+                    <AddCatergory
                         open={openPopup}
                         setPopup={setOpenPopup}
-                    ></PopupGroup>
+                    ></AddCatergory>
+                </>
+            )}
+            {createItem && (
+                <>
+                    <AddProduct
+                        open={createItem}
+                        setPopup={setCreateItem}
+                    ></AddProduct>
                 </>
             )}
         </section>

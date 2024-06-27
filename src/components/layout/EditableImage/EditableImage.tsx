@@ -10,26 +10,24 @@ export default function EditableImage() {
     const { uid } = useAuth() ?? {};
     const [uploadAvatar, setUploadAvatar] = useState<any>(null);
     const [imageUrl, setImageUrl] = useState("");
-    const [isUploading, setIsUploading] = useState(false);
+    const [isLoadingImage, setIsLoadingImage] = useState(true);
     // Add image to firebase storage
     const handleUpdateAvatar = async (e: { target: { files: any } }) => {
         const files = e.target.files;
         if (files) {
-            setIsUploading(true);
             setUploadAvatar(files[0]);
-            const ImageRef = refSto(storage, `images/${uid}`); // Sử dụng files[0] thay vì uploadAvatar
+            const ImageRef = refSto(storage, `MemberImg/${uid}`); // Sử dụng files[0] thay vì uploadAvatar
             uploadBytes(ImageRef, files[0])
                 .then((snapshot) => {
                     getDownloadURL(snapshot.ref).then((url) => {
                         setImageUrl(url);
-
+                        setIsLoadingImage(false);
                         // Đặt url image cho bảng profile
                         const profileRef = dbRef(
                             database,
                             `Profiles/${uid}/profileUser/Url`
                         );
                         set(profileRef, url).then(() => {
-                            setIsUploading(false);
                             message.success("Avatar updated successfully");
                             // Done update file image
                         });
@@ -48,6 +46,7 @@ export default function EditableImage() {
             const data = snapshot.val();
             if (data) {
                 setImageUrl(data);
+                setIsLoadingImage(false);
             }
         });
         return () => {
@@ -58,8 +57,8 @@ export default function EditableImage() {
         <>
             <div className="flex flex-col mx-auto items-center left-[10%]  top-[20%] absolute">
                 <div className="p-1 rounded-full drop-shadow-xl bg-white w-52 h-52 border-[2px]">
-                    {isUploading ? (
-                        <LogoSpin></LogoSpin>
+                    {isLoadingImage ? (
+                        <LogoSpin />
                     ) : (
                         <img
                             alt="Avatar"
